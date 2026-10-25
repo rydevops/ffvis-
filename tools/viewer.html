@@ -1,0 +1,16 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Sprite viewer</title>
+<style>body{margin:0;background:#3a3a44}canvas{image-rendering:pixelated;display:block}</style></head>
+<body><canvas id="c"></canvas>
+<script type="module">
+const params = new URLSearchParams(location.search);
+const mod = params.get('m') || 'field';
+const z = +(params.get('z') || 4);
+const c = document.getElementById('c');
+const { render } = await import('./view-' + mod + '.js');
+const src = await render();
+c.width = src.width * z; c.height = src.height * z;
+const x = c.getContext('2d'); x.imageSmoothingEnabled = false;
+x.drawImage(src, 0, 0, c.width, c.height);
+document.title = 'ready';
+</script></body></html>

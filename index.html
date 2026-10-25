@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Requiem for Ruin</title>
+<meta name="description" content="Requiem for Ruin — an unofficial fan-made 16-bit RPG.">
+<meta name="theme-color" content="#140C14">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Requiem">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <div id="screen-wrap"><canvas id="screen" width="384" height="216"></canvas></div>
+  <div id="pad" aria-hidden="true">
+    <div id="dpad"><div class="dpad-x"></div><div class="dpad-y"></div><div class="dpad-dot"></div></div>
+    <div id="menu-btns">
+      <button class="pill" data-btn="start">MENU</button>
+    </div>
+    <div id="ab">
+      <button class="round" id="btn-b" data-btn="b">B</button>
+      <button class="round" id="btn-a" data-btn="a">A</button>
+    </div>
+  </div>
+  <div id="boot">
+    <div id="boot-eye"></div>
+    <div id="boot-msg">Waking…</div>
+  </div>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

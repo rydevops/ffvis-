@@ -1,0 +1,135 @@
+:root {
+  --bg: #140C14;
+  --pad-ink: rgba(232, 226, 208, 0.82);
+  --pad-face: rgba(76, 80, 88, 0.55);
+  --pad-face-dark: rgba(30, 32, 36, 0.7);
+  --pad-press: rgba(108, 216, 200, 0.55);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: ui-monospace, Menlo, monospace;
+  color: #E8E2D0;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, #2a1a2a 0%, var(--bg) 70%);
+}
+
+#screen-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#screen {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #000;
+  box-shadow: 0 0 0 1px #2e1424, 0 6px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- virtual pad ---------- */
+#pad { position: absolute; left: 0; right: 0; pointer-events: none; }
+#pad > * { pointer-events: auto; position: absolute; }
+
+#dpad { width: 150px; height: 150px; touch-action: none; }
+.dpad-x, .dpad-y {
+  position: absolute;
+  background: var(--pad-face);
+  border: 2px solid var(--pad-ink);
+  border-radius: 10px;
+}
+.dpad-x { left: 0; right: 0; top: 50px; height: 50px; }
+.dpad-y { top: 0; bottom: 0; left: 50px; width: 50px; }
+.dpad-dot {
+  position: absolute; left: 62px; top: 62px; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--pad-face-dark);
+}
+#dpad.up .dpad-y { background: linear-gradient(var(--pad-press) 0 35%, var(--pad-face) 35%); }
+#dpad.down .dpad-y { background: linear-gradient(var(--pad-face) 65%, var(--pad-press) 65%); }
+#dpad.left .dpad-x { background: linear-gradient(90deg, var(--pad-press) 0 35%, var(--pad-face) 35%); }
+#dpad.right .dpad-x { background: linear-gradient(90deg, var(--pad-face) 65%, var(--pad-press) 65%); }
+
+#ab { width: 170px; height: 150px; }
+.round {
+  position: absolute;
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  border: 2px solid var(--pad-ink);
+  background: var(--pad-face);
+  color: var(--pad-ink);
+  font: bold 22px ui-monospace, Menlo, monospace;
+  touch-action: none;
+}
+#btn-a { right: 0; top: 10px; }
+#btn-b { left: 0; top: 66px; }
+.round.on, .pill.on { background: var(--pad-press); }
+
+#menu-btns { width: 100px; height: 40px; }
+.pill {
+  width: 96px; height: 34px;
+  border-radius: 17px;
+  border: 2px solid var(--pad-ink);
+  background: var(--pad-face-dark);
+  color: var(--pad-ink);
+  font: bold 13px ui-monospace, Menlo, monospace;
+  letter-spacing: 2px;
+  touch-action: none;
+}
+
+/* portrait: controls live in the space under the screen */
+body.portrait #pad { top: 0; bottom: 0; }
+body.portrait #dpad { left: calc(18px + var(--safe-l)); bottom: calc(70px + var(--safe-b)); }
+body.portrait #ab { right: calc(14px + var(--safe-r)); bottom: calc(70px + var(--safe-b)); }
+body.portrait #menu-btns { left: 50%; transform: translateX(-50%); bottom: calc(18px + var(--safe-b)); }
+
+/* landscape: controls overlay the gutters beside the screen */
+body.landscape #pad { top: 0; bottom: 0; }
+body.landscape #dpad { left: calc(10px + var(--safe-l)); bottom: calc(14px + var(--safe-b)); opacity: 0.8; }
+body.landscape #ab { right: calc(6px + var(--safe-r)); bottom: calc(14px + var(--safe-b)); opacity: 0.8; }
+body.landscape #menu-btns { right: calc(40px + var(--safe-r)); top: calc(10px + var(--safe-t)); opacity: 0.8; }
+body.landscape .pill { width: 80px; height: 30px; font-size: 11px; }
+
+/* hide on devices with a real keyboard + mouse only */
+body.no-touch #pad { display: none; }
+
+/* ---------- boot / update overlay ---------- */
+#boot {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  background: var(--bg);
+  transition: opacity 0.4s;
+  z-index: 10;
+}
+#boot.gone { opacity: 0; pointer-events: none; }
+#boot-eye {
+  width: 64px; height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #F0FFFC 0 12%, #6CD8C8 13% 30%, #146A6A 31% 45%, #E8E2D0 46% 100%);
+  box-shadow: 0 0 22px rgba(108, 216, 200, 0.5);
+  animation: blink 2.4s infinite;
+}
+@keyframes blink { 0%, 86%, 100% { transform: scaleY(1); } 92% { transform: scaleY(0.1); } }
+#boot-msg { font-size: 13px; letter-spacing: 3px; color: #B8F4E8; text-transform: uppercase; }
