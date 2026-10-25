@@ -1,6 +1,7 @@
 // Maps. Rows are tile chars (see tiles.js TILE_KIND). Props sit on their bottom tile row.
 import { hash } from './tiles.js';
 import { buildWorld } from './world.js';
+import { ACT1_MAPS } from './maps_act1.js';
 
 // Carve floor rectangles out of a solid block; walls on the lower/upper face rows get
 // occasional glyph bands (vault).
@@ -296,3 +297,4 @@ export const MAPS = {
       weather: (f) => (f.wsWind ? null : 'ash'), props: [], npcs: [], events: [] };
   })(),
 };
+Object.assign(MAPS, ACT1_MAPS);

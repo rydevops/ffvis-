@@ -50,7 +50,7 @@ function segDist(px, py, [ax, ay], [bx, by]) {
 export const LOCATIONS = [
   // id, name, x, y, icon, iconState, map, spawn [x, y, dir], show-flag (null = always)
   { id: 'mobliz', name: 'Mobliz', x: 8, y: 44, icon: 'iconTown', map: 'mobliz', spawn: [20, 25, 'up'] },
-  { id: 'figaro', name: 'Figaro Castle', x: 19, y: 35, icon: 'iconCastle', map: 'figaro', spawn: [12, 20, 'up'], big: true },
+  { id: 'figaro', name: 'Figaro Castle', x: 19, y: 35, icon: 'iconCastle', map: 'figaro', spawn: [14, 24, 'up'], big: true },
   { id: 'southFigaro', name: 'South Figaro', x: 22, y: 46, icon: 'iconPort', map: 'southFigaro', spawn: [14, 21, 'up'] },
   { id: 'kohlingen', name: 'Kohlingen', x: 11, y: 25, icon: 'iconTown', iconState: 'grey', map: 'kohlingen', spawn: [12, 17, 'up'] },
   { id: 'hollowmere', name: 'Hollowmere', x: 16, y: 29, icon: 'iconTown', iconState: 'grey', map: 'hollowmere', spawn: [14, 21, 'up'] },

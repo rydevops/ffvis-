@@ -13,6 +13,7 @@ import { CHARS, ITEMS, makeChar } from './party.js';
 import { saveGame } from '../core/save.js';
 import * as input from '../core/input.js';
 import { COMMON } from './story_common.js';
+import { ACT1 } from './story_act1.js';
 
 const SOLACE_NAME = '???';
 const solace = (text, name = SOLACE_NAME) => say(name, text, { style: 'solace' });
@@ -659,21 +660,12 @@ export const STORY = {
     sfx('chime');
     await say('', 'Far to the north, an engine roars across the red sky. An airship, bearing the crest of Figaro.');
     void f;
-    await fadeOut(90);
-    const { EndCardScene } = await import('../scenes/title.js');
-    game.state.chapterName = 'Mission 2';
-    setScene(new EndCardScene([
-      'To be continued',
-      '',
-      'Mission 2 — Letters by Falcon',
-      '',
-      'Thank you for playing this first chapter of',
-      'Requiem for Ruin, an unofficial fan sequel.',
-    ]));
+    removeActor('katarin2');
+    await STORY.m2Begin();
   },
 
   async fieldEdge() {
     await say('Terra', 'The east field. Nothing has grown here since the world fell. Not even weeds.');
   },
 };
-Object.assign(STORY, COMMON);
+Object.assign(STORY, COMMON, ACT1);

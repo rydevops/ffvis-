@@ -223,9 +223,8 @@ function umaroSprite(dir, fr) {
   p.outline(() => F[4]);
   return p.toCanvas();
 }
-function dogSprite(dir, fr) {
+function dogSprite(dir, fr, K = R.black) {
   const p = new Painter(16, 12);
-  const K = R.black;
   const lift = fr === 1 ? 1 : 0;
   if (dir === 'left') {
     p.ellipse(9, 6, 5, 3, K); p.ellipse(3, 4, 2.5, 2.5, K); p.set(1, 2, K[3]); p.set(2, 1, K[2]);
@@ -240,6 +239,15 @@ function dogSprite(dir, fr) {
     p.rect(6, 10 - lift, 1, 2, K[3]); p.rect(9, 10, 1, 2, K[3]);
   }
   p.deepOutline();
+  return p.toCanvas();
+}
+function miteSprite(dir, fr) { // a hovering drone marker on the field
+  const p = new Painter(16, 20);
+  const b = fr === 1 ? 1 : 0;
+  p.ring(8, 8 + b, 5, 7, [R.brass[0], R.brass[1], R.brass[2], R.brass[3]], 2);
+  p.ellipse(8, 8 + b, 4, 4, R.stone);
+  p.ellipse(7, 7 + b, 1.5, 1.5, R.glass);
+  p.outline(() => R.stone[4]);
   return p.toCanvas();
 }
 // vehicles for the world map
@@ -279,6 +287,9 @@ const SPECIAL = {
   sevenBlue: (d, f) => sevenSprite(d, f, 'blue'),
   umaro: (d, f) => umaroSprite(d, f),
   interceptor: (d, f) => dogSprite(d, f),
+  beast: (d, f) => dogSprite(d, f, R.leather),
+  beastGrey: (d, f) => dogSprite(d, f, R.iron),
+  mite: (d, f) => miteSprite(d, f),
   falcon: (d, f) => falconSprite(d, f).toCanvas(),
   skiff: (d, f) => skiffSprite(d, f).toCanvas(),
 };

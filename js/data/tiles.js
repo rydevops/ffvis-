@@ -2,6 +2,7 @@
 // 2-tile (32px) front face with a 2px highlight lip; light from the upper-left.
 import { Painter, bayer, makeCanvas } from '../core/gfx.js';
 import { R, OUTLINE, EL } from './palette.js';
+import { enemySprite } from './enemies.js';
 
 // deterministic hash for variants
 export function hash(x, y, s = 0) {
@@ -215,6 +216,7 @@ function paintWall(p, t, part, seed, x0, glyphFrame) {
   const f = t.face;
   const style = t.wall;
   if (part === 'top') {
+    if (style === 'rail') { const sky = t.void || R.skyRuin; p.rect(0, 0, 16, 16, sky[1]); return; }
     p.rect(0, 0, 16, 16, t.top);
     if (style === 'stone') { for (let x = 0; x < 16; x++) if (bayer(x, 0, 2)) p.set(x, 15, f[4]); }
     if (style === 'rock' || style === 'crystal') for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) if (hash(seed * 1000, x, y) < 0.08) p.set(x, y, f[4]);
@@ -553,6 +555,7 @@ export const PROPS = {
 const propCache = new Map();
 export function propCanvas(type, state, frame) {
   const P = PROPS[type];
+  if (P.figure) return enemySprite(P.figure, P.anim ? frame % 2 : 0, 0, state ? { face: state } : null);
   const key = type + '|' + state + '|' + (P.anim || type === 'whiteDoor' || type === 'sealedDoor' || type === 'core' ? frame : 0);
   let c = propCache.get(key);
   if (!c) {
@@ -850,3 +853,10 @@ Object.assign(PROPS, {
   iconSea: { w: 32, h: 16, foot: [0, 0, 0, 0], anim: true,
     paint(p, s, f) { for (let i = 0; i < 3; i++) { const r = 4 + ((f * 2 + i * 4) % 12); for (let a = 0; a < 360; a += 12) { const t = a * Math.PI / 180; p.set(16 + Math.cos(t) * r, 8 + Math.sin(t) * r * 0.4, R.seaRest[1 + i % 2]); } } } },
 });
+
+// Large story figures drawn from their battle paintings (Psalm in the mine, SOLACE asleep, etc.)
+for (const [k, fig, w, h, foot] of [['psalmFig', 'psalm', 112, 98, [2, 0, 3, 1]], ['litanyFig', 'litany', 112, 96, [2, 0, 3, 1]], ['dirgeFig', 'dirge', 84, 100, [2, 0, 2, 1]],
+  ['vigilFig', 'vigil', 128, 84, [2, 0, 4, 1]], ['wardenFig', 'warden', 88, 92, [2, 0, 2, 1]], ['mercyFig', 'mercy', 32, 50, [0, 0, 2, 1]], ['kefkaFig', 'kefka', 72, 96, [1, 0, 2, 1]],
+  ['amenFig', 'amen', 128, 100, [2, 0, 4, 1]], ['retrieverFig', 'retriever', 72, 54, [1, 0, 2, 1]], ['hiveFig', 'broodHive', 60, 62, [1, 0, 2, 1]], ['ifritFig', 'echoIfrit', 80, 92, [1, 0, 3, 1]], ['shivaFig', 'echoShiva', 64, 92, [1, 0, 2, 1]]]) {
+  PROPS[k] = { w, h, foot, figure: fig, anim: true, paint() {} };
+}

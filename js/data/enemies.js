@@ -655,6 +655,8 @@ Object.assign(ENEMIES, {
     moves: [M('Swarm', 0.8, 3, 'needle', { all: true }), M('Hatch', 0, 2, 'reseed', { summon: 'vaultMite' }), M('Sting', 1.2, 2, 'needle', { status: 'poison', chance: 0.5 })] },
   retriever: { name: 'Retriever Unit', paint: 'retriever', family: 'machine', hp: 1100, atk: 22, def: 15, mdf: 10, spd: 16, exp: 320, gp: 600, parts: 5, boss: true, big: true, weak: ['bolt'],
     moves: [M('Pounce', 1.5, 3, 'slam'), M('Tether Line', 0.6, 2, 'drain', { drain: true }), M('Lens Sweep', 0.8, 2, 'beam', { all: true, lore: 'lampBeam' })], steal: 'swiftBoots' },
+  brushback: { name: 'Brushback', paint: 'brushback', family: 'beast', hp: 170, atk: 18, def: 12, mdf: 6, spd: 15, exp: 38, gp: 40, weak: ['fire'], rage: 'goreCharge', steal: 'tonic',
+    moves: [M('Gore', 1.1, 3, 'claw'), M('Stampede', 0.9, 1, 'slam', { all: true })] },
   snowWolf: { name: 'Snow Wolf', paint: 'wolf', family: 'beast', hp: 150, atk: 19, def: 9, mdf: 6, spd: 22, exp: 40, gp: 50, weak: ['fire'], rage: 'frostFang', steal: 'tonic',
     moves: [M('Bite', 1, 3, 'claw'), M('Frost Fang', 1.4, 1, 'ice', { el: 'ice', lore: 'frostFang' })] },
   mineBat: { name: 'Mine Bat', paint: 'bat', family: 'beast', hp: 90, atk: 15, def: 6, mdf: 6, spd: 26, exp: 26, gp: 30, weak: ['wind'], hover: true, rage: 'drainBite',
@@ -747,6 +749,7 @@ for (const e of Object.values(ENEMIES)) { e.gp ??= Math.round(e.exp * 1.4); e.md
 // Gau's rages: the beast's signature move, which Gau performs in its form.
 export const RAGES = {
   digRush: { name: 'Burrower', move: M('Dig Rush', 1.6, 1, 'claw') },
+  goreCharge: { name: 'Brushback', move: M('Gore Charge', 1.7, 1, 'slam') },
   frostFang: { name: 'Snow Wolf', move: M('Frost Fang', 1.8, 1, 'ice', { el: 'ice' }) },
   drainBite: { name: 'Mine Bat', move: M('Drain Bite', 1.2, 1, 'drain', { drain: true }) },
   crystalSpine: { name: 'Crystal Crawler', move: M('Crystal Spine', 1.9, 1, 'needle', { all: true }) },

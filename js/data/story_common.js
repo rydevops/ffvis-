@@ -14,6 +14,14 @@ import { saveGame } from '../core/save.js';
 
 export const st = () => game.state;
 
+export async function chapterCard(title, sub) {
+  const { caption, setFade: sf, fadeIn: fi } = await import('../script.js');
+  sf(4);
+  await caption([title, sub], { frames: 200, color: R.stone[0] });
+  await fi(30);
+}
+export const solace = (text, name = 'SOLACE') => say(name, text, { style: 'solace' });
+
 export function autosave() { if (saveGame(game.state)) return notice('Progress saved.', { frames: 60 }); return Promise.resolve(); }
 
 // Restoration wave: a warm golden ring with flowers bursting along its edge; colour floods in behind.

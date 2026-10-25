@@ -688,11 +688,13 @@ const SFX = {
   collapse(t) { sweep(t, 'sine', 300, 60, 0.9, 0.15); },
   flower(t) { [12, 16, 19, 24].forEach((s, i) => { const g = gainNode(0); pluckEnv(g.gain, t + i * 0.12, 0.04, 1.2); osc('sine', 523 * Math.pow(2, s / 12), t + i * 0.12, t + 2).connect(g).connect(sfxBus); }); },
   quake(t) { noiseHit(t, 1.5, 0.3, 'lowpass', 120, 3); sweep(t, 'sine', 50, 30, 1.5, 0.4); },
+  engine(t) { sweep(t, 'sawtooth', 45, 70, 1.6, 0.12); sweep(t, 'square', 90, 140, 1.6, 0.04); noiseHit(t, 1.6, 0.12, 'lowpass', 400, 2); },
   pulse(t) { sweep(t, 'sine', 70, 35, 2.5, 0.35); },
   thud(t) { sweep(t, 'sine', 100, 40, 0.25, 0.4); noiseHit(t, 0.12, 0.1, 'lowpass', 500); },
   chime(t) { const g = gainNode(0); pluckEnv(g.gain, t, 0.12, 2.5); osc('sine', 1318, t, t + 3).connect(g).connect(sfxBus); const g2 = gainNode(0); pluckEnv(g2.gain, t, 0.05, 2); osc('sine', 1318 * 2.76, t, t + 3).connect(g2).connect(sfxBus); },
 };
 
+export const SFX_NAMES = () => Object.keys(SFX);
 export function sfx(name) {
   if (!ctx || ctx.state !== 'running') return;
   const fn = SFX[name];

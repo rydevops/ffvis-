@@ -307,6 +307,7 @@ export const ITEMS = {
   rachelLetters: { name: "Rachel's Letters", desc: 'Tied with faded ribbon.', key: true },
   elevenNames: { name: 'Eleven Names', desc: 'Ilse\'s list. Some names are crossed through with care.', key: true },
   domaLetters: { name: 'Soldiers\' Letters', desc: 'Final letters from Doma\'s fallen.', key: true },
+  pamphlet: { name: 'Hush Pamphlet', desc: '"THE QUIETING IS MERCY. Lie down. Be still. Be loved."', key: true },
   festivalBell: { name: 'Festival Bell', desc: 'The moogles want it rung.', key: true },
 };
 

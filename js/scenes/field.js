@@ -55,7 +55,7 @@ export class FieldScene {
     this.vehicle = null;
     // flag-dependent tile overrides (e.g. the bloom)
     if (m.override) for (const o of m.override) if (game.state.flags[o.flag]) this.applyOverride(o);
-    this.props = (m.props || []).filter((p) => !p.flag || game.state.flags[p.flag]).map((p, i) => ({
+    this.props = (m.props || []).filter((p) => (!p.flag || game.state.flags[p.flag]) && !(p.unless && game.state.flags[p.unless])).map((p, i) => ({
       id: p.id || 'p' + i, ...p, state: (game.state.propState[this.mapId + ':' + (p.id || 'p' + i)]) ?? p.state ?? null,
     }));
     this.actors = [];

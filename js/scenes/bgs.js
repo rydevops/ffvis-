@@ -309,6 +309,7 @@ PAINT.snow = PAINT.snowfield;
 PAINT.sea = PAINT.beach;
 PAINT.port = PAINT.beach;
 
+export const BG_KINDS = () => Object.keys(PAINT);
 const cache = new Map();
 export function battleBg(kind, state) {
   const rest = !!(game.state && game.state.flags && game.state.flags.wsWind);
