@@ -102,6 +102,15 @@ export function greyOf(src) { // "stilled" / petrify style full desaturation
     return [q, q - 4, q - 10];
   }));
 }
+export function stillOf(src) { // the Stilled: colour drains toward a cold blue-grey, outlines stay dark
+  return cachedVariant(src, 'still', () => recolor(src, (r, g, b) => {
+    const l = 0.3 * r + 0.55 * g + 0.15 * b;
+    if (l < 48) return [0x2A, 0x26, 0x34];
+    const k = 0.25; // keep a quarter of the original colour so faces stay readable
+    const t = [l * 0.92 + 18, l * 0.96 + 20, l + 34];
+    return [r * k + t[0] * (1 - k), g * k + t[1] * (1 - k), b * k + t[2] * (1 - k)].map((v) => Math.max(0, Math.min(255, Math.round(v))));
+  }));
+}
 export function darkOf(src) { // knocked out: palette drops to shadow steps
   return cachedVariant(src, 'dark', () => recolor(src, (r, g, b) => {
     const s = SHADOW_OF[rgbToHex(r, g, b)];

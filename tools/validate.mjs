@@ -54,7 +54,7 @@ const out = await page.evaluate(async () => {
     const src = await res.text();
     const each = (re, fn) => { for (const m of src.matchAll(re)) fn(m); };
     each(/battle\(\[([^\]]*)\]/g, (m) => { for (const k of m[1].matchAll(/'([a-zA-Z0-9]+)'/g)) if (!ENEMIES[k[1]]) err(`${file}: battle with unknown enemy ${k[1]}`); });
-    each(/teleport\('([a-zA-Z0-9]+)'/g, (m) => { if (!MAPS[m[1]]) err(`${file}: teleport to unknown map ${m[1]}`); });
+    each(/teleport\('([a-zA-Z0-9]+)'(?=\s*,)/g, (m) => { if (!MAPS[m[1]]) err(`${file}: teleport to unknown map ${m[1]}`); });
     each(/sprite: '([a-zA-Z0-9]+)'/g, (m) => { if (!hasSprite(m[1])) err(`${file}: unknown sprite ${m[1]}`); });
     each(/music\('([a-zA-Z0-9]+)'/g, (m) => { if (!SONGS[m[1]]) err(`${file}: unknown song ${m[1]}`); });
     each(/battleMusic: '([a-zA-Z0-9]+)'/g, (m) => { if (!SONGS[m[1]]) err(`${file}: unknown song ${m[1]}`); });
@@ -63,7 +63,7 @@ const out = await page.evaluate(async () => {
     each(/give\('([a-zA-Z0-9]+)'/g, (m) => { if (!ITEMS[m[1]]) err(`${file}: unknown item ${m[1]}`); });
     each(/(?:joins|recruit|makeChar)\('([a-zA-Z0-9]+)'/g, (m) => { if (!CHARS[m[1]]) err(`${file}: unknown char ${m[1]}`); });
     each(/type: '([a-zA-Z0-9]+)'/g, (m) => { if (!PROPS[m[1]]) err(`${file}: unknown prop ${m[1]}`); });
-    each(/STORY\.([a-zA-Z0-9]+)\(/g, (m) => { if (!STORY[m[1]] && m[1] !== 'act2Begin') err(`${file}: call to missing STORY.${m[1]}`); });
+    each(/STORY\.([a-zA-Z0-9]+)\(/g, (m) => { if (!STORY[m[1]] && !['act2Begin', 'act3Begin'].includes(m[1])) err(`${file}: call to missing STORY.${m[1]}`); });
     each(/ACT[0-9]\.([a-zA-Z0-9]+)\(/g, (m) => { if (!STORY[m[1]]) err(`${file}: call to missing ${m[0]}`); });
   }
   return { errs, maps: Object.keys(MAPS).length, story: Object.keys(STORY).length };

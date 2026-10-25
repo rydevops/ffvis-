@@ -2,7 +2,7 @@
 import { game, setScene, pushOverlay, wait, fadeIn, fadeOut } from '../game.js';
 import * as input from '../core/input.js';
 import * as audio from '../core/audio.js';
-import { W, H, makeCanvas, ditherRect, ditherPattern, rot90, flipH, greyOf } from '../core/gfx.js';
+import { W, H, makeCanvas, ditherRect, ditherPattern, rot90, flipH, greyOf, stillOf } from '../core/gfx.js';
 import { drawText } from '../core/font.js';
 import { MAPS } from '../data/maps.js';
 import { tileCanvas, propCanvas, PROPS, TILE_KIND, SOLID, hash } from '../data/tiles.js';
@@ -36,7 +36,8 @@ export class FieldScene {
   enter() {
     if (!this.loaded) this.load();
     const m = this.map;
-    if (m.music && !this.keepMusic) audio.playMusic(m.music);
+    const mus = typeof m.music === 'function' ? m.music(game.state.flags) : m.music;
+    if (mus && !this.keepMusic) audio.playMusic(mus);
     audio.setAmbience(m.ambience || 'none');
     game.state.map = this.mapId;
     game.state.mapName = m.name;
@@ -56,7 +57,7 @@ export class FieldScene {
     // flag-dependent tile overrides (e.g. the bloom)
     if (m.override) for (const o of m.override) if (game.state.flags[o.flag]) this.applyOverride(o);
     this.props = (m.props || []).filter((p) => (!p.flag || game.state.flags[p.flag]) && !(p.unless && game.state.flags[p.unless])).map((p, i) => ({
-      id: p.id || 'p' + i, ...p, state: (game.state.propState[this.mapId + ':' + (p.id || 'p' + i)]) ?? p.state ?? null,
+      id: p.id || 'p' + i, ...p, state: (game.state.propState[this.mapId + ':' + (p.id || 'p' + i)]) ?? (typeof p.state === 'function' ? p.state(game.state.flags) : p.state) ?? null,
     }));
     this.actors = [];
     const lead = game.state.party[0];
@@ -171,7 +172,12 @@ export class FieldScene {
     const st = game.state;
     if (this.vehicle === 'falcon') {
       const k = this.kinds[p.y][p.x];
-      if (WALK_BLOCK.has(k)) { audio.sfx('buzzer'); return true; }
+      if (WALK_BLOCK.has(k)) {
+        // a sea location (the Serpent Trench) is entered from the air without landing
+        const sea = this.events.find((e) => e.on === 'step' && e.loc && p.y >= e.y && p.y < e.y + (e.h || 1) && p.x >= e.x && p.x < e.x + (e.w || 1) && this.eventLive(e));
+        if (sea) { this.runEvent(sea); return true; }
+        audio.sfx('buzzer'); return true;
+      }
       this.vehicle = null;
       st.boarded = null;
       st.vehicles.falcon = [p.x, p.y];
@@ -490,12 +496,15 @@ export class FieldScene {
       ctx.fillRect(x + Math.floor((w - sw) / 2), y + h - 2, sw, 1);
     }
     if (a.lying) {
-      img = a.lyingCanvas || (a.lyingCanvas = rot90(sheet.left[0]));
-      if (a.stilled) img = greyOf(img);
-      ctx.drawImage(img, Math.round(a.px - cx) - 4, Math.round(a.py - cy) + 4);
+      img = a.lyingCanvas || (a.lyingCanvas = rot90(sheet.down[0]));
+      if (a.stilled) img = stillOf(img);
+      const lx = Math.round(a.px - cx) - 4, ly = Math.round(a.py - cy) + 4;
+      ctx.fillStyle = ditherPattern(ctx, this.map.shadow || '#2A2018', 2);
+      ctx.fillRect(lx + 2, ly + img.height - 5, img.width - 4, 3);
+      ctx.drawImage(img, lx, ly);
       return;
     }
-    if (a.stilled) img = greyOf(img);
+    if (a.stilled) img = stillOf(img);
     ctx.drawImage(img, x, y - (a.fly || 0));
   }
 

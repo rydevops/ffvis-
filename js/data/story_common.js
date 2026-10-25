@@ -11,6 +11,7 @@ import { ITEMS, GEAR, ECHOES } from './party.js';
 import { LOCATIONS } from './world.js';
 import { MAPS } from './maps.js';
 import { saveGame } from '../core/save.js';
+import * as SCRIPT from '../script.js';
 
 export const st = () => game.state;
 
@@ -182,5 +183,25 @@ export async function pickTeam(o) {
   const { PartyPicker } = await import('../scenes/menu.js');
   return pushOverlay(new PartyPicker(o)).promise;
 }
+
+// Make a set of characters the controllable party (they stay in the roster).
+export function team(ids, leader = ids[0]) {
+  setParty(ids);
+  const c = st().chars[leader];
+  const { setLeader } = SCRIPT;
+  setLeader(c.fieldOverride || c.field);
+}
+
+// Before a mission: the player picks a party of up to four that must include the key characters.
+export async function requireTeam(required, title = 'Choose the party') {
+  const have = required.filter((id) => st().roster.includes(id));
+  const names = have.map((id) => st().chars[id].name).join(', ');
+  if (have.length) await notice(`This mission needs ${names}.`, { frames: 110 });
+  const picked = await pickTeam({ title, pool: [...st().roster], min: Math.max(1, have.length), max: 4, required: have });
+  team(picked && picked.length ? picked : have.length ? have : st().party);
+}
+
+// How many of the four outer Wellsprings burn again.
+export const wsCount = () => ['wsStone', 'wsTides', 'wsHeart', 'wsWind'].filter((k) => st().flags[k]).length;
 
 export { say, choose, notice, wait, fadeOut, fadeIn, flash, shake, setFade, teleport, setFlag, getFlag, give, field, sfx, music, battle, recruit, setParty, walk, actor, ITEMS };

@@ -19,6 +19,7 @@ export const REGIONS = {
   central: { name: 'The Heartland', flag: 'wsOrigin', centre: [46, 38] },
   east: { name: 'The East', flag: 'wsHeart', centre: [68, 30] },
   sea: { name: 'The Sea', flag: 'wsTides' },
+  sky: { name: 'The Sky', flag: 'wsWind' },
 };
 
 export function regionState(region, flags) {
@@ -58,20 +59,20 @@ export const LOCATIONS = [
   { id: 'jidoor', name: 'Jidoor', x: 13, y: 51, icon: 'iconTown', iconState: 'plum', map: 'jidoor', spawn: [12, 17, 'up'], flag: 'act2' },
   { id: 'solitary', name: 'Solitary Island', x: 9, y: 56, icon: 'iconTown', iconState: 'green', map: 'solitary', spawn: [8, 12, 'up'], flag: 'act2' },
   { id: 'narshe', name: 'Narshe', x: 30, y: 9, icon: 'iconTown', iconState: 'grey+snow', map: 'narshe', spawn: [14, 25, 'up'] },
-  { id: 'dragonsNeck', name: "Dragon's Neck", x: 43, y: 6, icon: 'iconPeak', map: null, event: 'armadaApproach', flag: 'act2' },
-  { id: 'zozo', name: 'Zozo', x: 37, y: 24, icon: 'iconRuin', map: 'zozo', spawn: [12, 21, 'up'], flag: 'act2' },
+  { id: 'dragonsNeck', name: "Dragon's Neck", x: 43, y: 6, icon: 'iconPeak', map: null, event: 'armadaApproach', flag: 'm7Done' },
+  { id: 'zozo', name: 'Zozo', x: 37, y: 24, icon: 'iconRuin', map: 'zozo', spawn: [14, 22, 'up'], flag: 'zozoOpen' },
   { id: 'tower', name: "Kefka's Tower", x: 46, y: 31, icon: 'iconTower', map: null, event: 'towerRuins' },
   { id: 'ashen', name: 'Ashen Reach', x: 51, y: 37, icon: 'iconRuin', map: 'ashen', spawn: [28, 9, 'left'] },
-  { id: 'albrook', name: 'Albrook', x: 40, y: 49, icon: 'iconPort', map: 'albrook', spawn: [14, 21, 'up'], flag: 'act2' },
+  { id: 'albrook', name: 'Albrook', x: 40, y: 49, icon: 'iconPort', map: 'albrook', spawn: [15, 21, 'up'], flag: 'silentHour' },
   { id: 'tzen', name: 'Tzen', x: 55, y: 44, icon: 'iconTown', iconState: 'brick', map: 'tzen', spawn: [12, 17, 'up'], flag: 'act2' },
   { id: 'maranda', name: 'Maranda', x: 48, y: 52, icon: 'iconTown', iconState: 'brick', map: 'maranda', spawn: [14, 21, 'up'], flag: 'act2' },
   { id: 'veldt', name: 'The Veldt', x: 64, y: 41, icon: 'iconGlyph', map: 'veldt', spawn: [4, 12, 'right'] },
-  { id: 'doma', name: 'Doma Castle', x: 66, y: 18, icon: 'iconCastle', iconState: 'eastern', map: 'doma', spawn: [14, 25, 'up'], big: true, flag: 'act2' },
+  { id: 'doma', name: 'Doma Castle', x: 66, y: 18, icon: 'iconCastle', iconState: 'eastern', map: 'doma', spawn: [15, 25, 'up'], big: true, flag: 'act2' },
   { id: 'nikeah', name: 'Nikeah', x: 74, y: 30, icon: 'iconPort', map: 'nikeah', spawn: [14, 21, 'up'], flag: 'act2' },
-  { id: 'esperGate', name: 'Sealed Gate', x: 72, y: 10, icon: 'iconCave', iconState: 'spirit', map: 'esperRuins', spawn: [14, 38, 'up'], flag: 'act2' },
-  { id: 'thamasa', name: 'Thamasa', x: 72, y: 53, icon: 'iconTown', iconState: 'green', map: 'thamasa', spawn: [14, 23, 'up'], flag: 'act2' },
+  { id: 'esperGate', name: 'Sealed Gate', x: 72, y: 10, icon: 'iconCave', iconState: 'spirit', map: 'esperRuins', spawn: [14, 38, 'up'], flag: 'm6Done' },
+  { id: 'thamasa', name: 'Thamasa', x: 72, y: 53, icon: 'iconTown', iconState: 'green', map: 'thamasa', spawn: [15, 23, 'up'], flag: 'act2' },
   { id: 'zoneEater', name: 'Zone Eater', x: 53, y: 4, icon: 'iconCave', map: 'zoneEater', spawn: [10, 14, 'up'], flag: 'act3' },
-  { id: 'trench', name: 'Serpent Trench', x: 32, y: 37, icon: 'iconSea', map: null, event: 'diveTrench', sea: true, flag: 'act2' },
+  { id: 'trench', name: 'Serpent Trench', x: 32, y: 37, icon: 'iconSea', map: null, event: 'diveTrench', sea: true, flag: 'm7Done' },
 ];
 
 let cached = null;

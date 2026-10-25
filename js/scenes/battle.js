@@ -754,7 +754,7 @@ export class BattleScene {
       case 'runic': p.pose = 'defend'; this.runic = p; audio.sfx('defend'); this.msgOut(`${p.name} readies her runes.`, 50); await wait(24); p.pose = null; return;
       case 'sky': p.counter = { n: 1, power: 1.8 }; p.pose = 'defend'; audio.sfx('defend'); this.msgOut('Sky: a counter stance.', 50); await wait(24); p.pose = null; return;
       case 'counterStance': p.counter = { n: 3, power: 1.0 }; p.pose = 'defend'; audio.sfx('defend'); await wait(24); p.pose = null; return;
-      case 'trance': return this.special(p, () => { p.status.trance = 40 * SEC; this.cure(p); flash(R.spirit[0]); audio.sfx('spirit'); this.msgOut('Terra embraces the Esper within.', 70); });
+      case 'trance': return this.special(p, () => { p.status.trance = (game.state.flags.tranceFull ? 90 : 40) * SEC; this.cure(p); flash(R.spirit[0]); audio.sfx('spirit'); this.msgOut('Terra embraces the Esper within.', 70); });
       case 'steal': case 'mug': return this.steal(p, targets[0], id === 'mug');
       case 'sketch': return this.sketch(p, targets[0]);
     }

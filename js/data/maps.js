@@ -2,6 +2,7 @@
 import { hash } from './tiles.js';
 import { buildWorld } from './world.js';
 import { ACT1_MAPS } from './maps_act1.js';
+import { ACT2_MAPS } from './maps_act2.js';
 
 // Carve floor rectangles out of a solid block; walls on the lower/upper face rows get
 // occasional glyph bands (vault).
@@ -297,4 +298,4 @@ export const MAPS = {
       weather: (f) => (f.wsWind ? null : 'ash'), props: [], npcs: [], events: [] };
   })(),
 };
-Object.assign(MAPS, ACT1_MAPS);
+Object.assign(MAPS, ACT1_MAPS, ACT2_MAPS);

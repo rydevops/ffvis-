@@ -79,6 +79,8 @@ export const CHAR_DEFS = {
     pal: { hair: R.brownHair, skin: R.skinLight, top: R.coatDrab, bottom: R.farmBlue, trim: R.leather, boots: R.leather } },
   miner: { body: 'adult', head: 'crew',
     pal: { hair: R.black, skin: R.skinLight, top: R.farmBlue, bottom: R.iron, trim: R.leather, boots: R.iron, extra: R.iron, accent: R.brass } },
+  maduin: { body: 'adult', head: 'longhair', warm: true,
+    pal: { hair: R.stone, skin: R.palePink, top: R.spirit, bottom: R.violet, trim: R.brass, boots: R.violet } },
   valtheia: { body: 'robe', head: 'longhair', warm: true,
     pal: { hair: R.violet, skin: R.palePink, top: R.spirit, bottom: R.spirit, trim: R.stone, boots: R.plum } },
   rachel: { body: 'coat', head: 'longhair', warm: true,

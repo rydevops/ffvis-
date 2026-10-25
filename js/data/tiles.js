@@ -297,6 +297,7 @@ export const TILE_KIND = {
   '#': 'wall', 'G': 'glyph', '.': 'floor', ',': 'path', '=': 'rail', '"': 'flowers', 'c': 'crop', 'w': 'water',
   ' ': 'void', 'o': 'rune', 'r': 'floor', 'x': 'runner', '_': 'floor', 'b': 'bridge', 'm': 'murk', 't': 'brush',
   'f': 'floor', 'g': 'grass', 'd': 'dirt',
+  '1': 'void', '2': 'void', '3': 'void', '4': 'void', // collapsed floor that a story event can bridge (map override)
 };
 export const SOLID = new Set(['wall', 'glyph', 'water', 'void']);
 
