@@ -1154,7 +1154,7 @@ export class BattleScene {
 
   // ---------------------------------------------------------------- draw
   draw(ctx) {
-    drawBg(ctx, this.bg, this.t);
+    drawBg(ctx, this.bg, this.t, this.opts.bgState);
     if (this.tint) ditherRect(ctx, 0, 0, W, FIELD_H, this.tint.color, this.tint.level);
     for (const e of this.enemies) {
       if (!e.alive && !e.dying) continue;

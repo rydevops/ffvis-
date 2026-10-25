@@ -12,6 +12,7 @@ import { R, OUTLINE, UI } from './palette.js';
 import { CHARS, ITEMS, makeChar } from './party.js';
 import { saveGame } from '../core/save.js';
 import * as input from '../core/input.js';
+import { COMMON } from './story_common.js';
 
 const SOLACE_NAME = '???';
 const solace = (text, name = SOLACE_NAME) => say(name, text, { style: 'solace' });
@@ -675,3 +676,4 @@ export const STORY = {
     await say('Terra', 'The east field. Nothing has grown here since the world fell. Not even weeds.');
   },
 };
+Object.assign(STORY, COMMON);

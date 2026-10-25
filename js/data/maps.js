@@ -1,5 +1,6 @@
 // Maps. Rows are tile chars (see tiles.js TILE_KIND). Props sit on their bottom tile row.
 import { hash } from './tiles.js';
+import { buildWorld } from './world.js';
 
 // Carve floor rectangles out of a solid block; walls on the lower/upper face rows get
 // occasional glyph bands (vault).
@@ -248,11 +249,12 @@ export const MAPS = {
       '#............,.............ffffffffffff#',
       '#............,..............ffffffffff.#',
       '#............,.........................#',
-      '#............,.........................#',
-      '#......................................#',
-      '########################################',
-      '########################################',
+      '#............,,,,,,,,..................#',
+      '#...................,..................#',
+      '###################,,,##################',
+      '###################,,,##################',
     ],
+    region: 'west',
     override: [{ flag: 'bloom', from: 'f', to: 'flowers' }],
     props: [
       { id: 'home', type: 'cottage', x: 6, y: 7 },
@@ -285,6 +287,12 @@ export const MAPS = {
       { id: 'crop3', on: 'talk', x: 5, y: 17, w: 7, run: 'waterCrop', row: 3 },
       { id: 'crop4', on: 'talk', x: 5, y: 18, w: 7, run: 'waterCrop', row: 4 },
       { id: 'field', on: 'step', x: 26, y: 13, w: 14, run: 'fieldEdge', unless: 'bloom' },
+      { id: 'exit', on: 'step', x: 19, y: 27, w: 3, run: 'leaveMobliz' },
     ],
   },
+  world: (() => {
+    const w = buildWorld();
+    return { name: 'World of Ruin', world: true, theme: 'world', music: 'world', rows: w.rows, regionGrid: w.region, shadow: '#2A2018',
+      weather: (f) => (f.wsWind ? null : 'ash'), props: [], npcs: [], events: [] };
+  })(),
 };

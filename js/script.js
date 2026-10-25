@@ -130,7 +130,7 @@ export async function battle(group, opts = {}) {
   const prevMusic = audio.currentSong();
   await swirl(opts.boss);
   const result = await new Promise((resolve) => {
-    setScene(new BattleScene(group, { ...opts, onEnd: resolve }));
+    setScene(new BattleScene(group, { bgState: f && f.wstate, ...opts, onEnd: resolve }));
   });
   if (result === 'lose' && !opts.canLose) {
     const { GameOverScene } = await import('./scenes/title.js');
