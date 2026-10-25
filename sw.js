@@ -29,6 +29,7 @@ const ASSETS = /*ASSETS*/[
   "./js/game.js",
   "./js/main.js",
   "./js/scenes/battle.js",
+  "./js/scenes/bfx.js",
   "./js/scenes/bgs.js",
   "./js/scenes/field.js",
   "./js/scenes/menu.js",

@@ -1,16 +1,16 @@
 import { fieldSheet, CHAR_DEFS } from '../js/data/sprites.js';
 import { makeCanvas } from '../js/core/gfx.js';
 export async function render() {
-  const ids = Object.keys(CHAR_DEFS);
-  const { canvas, ctx } = makeCanvas(12 * 18 + 4, ids.length * 26 * 2 + 4);
-  ids.forEach((id, row) => {
+  const ids = [...Object.keys(CHAR_DEFS), 'mog', 'moogle', 'seven', 'sevenBlue', 'umaro', 'interceptor', 'falcon', 'skiff'];
+  const cols = 4;
+  const cw = 12 * 26 + 8;
+  const rows = Math.ceil(ids.length / cols);
+  const { canvas, ctx } = makeCanvas(cols * cw, rows * 36 + 4);
+  ids.forEach((id, n) => {
     const s = fieldSheet(id);
-    ['down', 'up', 'left', 'right'].forEach((d, di) => s[d].forEach((f, fi) => {
-      ctx.fillStyle = '#E8E2D0'; ctx.fillRect(2 + (di * 3 + fi) * 18, 2 + row * 52, 16, 24);
-      ctx.fillStyle = '#2E1424'; ctx.fillRect(2 + (di * 3 + fi) * 18, 2 + row * 52 + 26, 16, 24);
-      ctx.drawImage(f, 2 + (di * 3 + fi) * 18, 2 + row * 52);
-      ctx.drawImage(f, 2 + (di * 3 + fi) * 18, 2 + row * 52 + 26);
-    }));
+    const ox = (n % cols) * cw, oy = Math.floor(n / cols) * 36;
+    ctx.fillStyle = n % 2 ? '#C4BCA6' : '#5A2434'; ctx.fillRect(ox, oy, cw - 4, 35);
+    ['down', 'up', 'left', 'right'].forEach((d, di) => s[d].forEach((f, fi) => ctx.drawImage(f, ox + 2 + (di * 3 + fi) * 26, oy + 34 - f.height)));
   });
   return canvas;
 }

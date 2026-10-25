@@ -358,20 +358,25 @@ export class FieldScene {
 
   drawActor(ctx, a, cx, cy) {
     const sheet = fieldSheet(a.sprite);
-    const x = Math.round(a.px - cx), y = Math.round(a.py - cy) - 8 + (a.offY || 0);
-    // cast shadow (12x4, dithered in the ground's shadow tone)
-    ctx.fillStyle = ditherPattern(ctx, this.map.shadow || '#2A2018', 2);
-    if (!a.lying) { ctx.fillRect(x + 3, y + 21, 10, 3); ctx.fillRect(x + 2, y + 22, 12, 1); }
-    let img;
+    let img = walkFrame(sheet, a.dir, a.walkT, a.moving || a.alwaysAnim);
+    if (a.alwaysAnim && !a.moving) img = sheet[a.dir][Math.floor(game.frame / 12) % 2 ? 1 : 0];
+    const w = img.width, h = img.height;
+    const x = Math.round(a.px - cx) - Math.floor((w - 16) / 2), y = Math.round(a.py - cy) - 8 + (24 - h) + (a.offY || 0);
+    // cast shadow (12x4 for 16px sprites, scaled with the sprite), dithered in the ground's shadow tone
+    if (!a.lying && !a.noShadow) {
+      const sw = Math.max(10, Math.round(w * 0.7));
+      ctx.fillStyle = ditherPattern(ctx, this.map.shadow || '#2A2018', 2);
+      ctx.fillRect(x + Math.floor((w - sw) / 2) + 1, y + h - 3, sw - 2, 3);
+      ctx.fillRect(x + Math.floor((w - sw) / 2), y + h - 2, sw, 1);
+    }
     if (a.lying) {
       img = a.lyingCanvas || (a.lyingCanvas = rot90(sheet.left[0]));
       if (a.stilled) img = greyOf(img);
-      ctx.drawImage(img, x - 4, y + 12);
+      ctx.drawImage(img, Math.round(a.px - cx) - 4, Math.round(a.py - cy) + 4);
       return;
     }
-    img = walkFrame(sheet, a.dir, a.walkT, a.moving);
     if (a.stilled) img = greyOf(img);
-    ctx.drawImage(img, x, y);
+    ctx.drawImage(img, x, y - (a.fly || 0));
   }
 
   drawEmote(ctx, a, cx, cy) {

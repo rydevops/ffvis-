@@ -4,7 +4,7 @@ import * as audio from './core/audio.js';
 import * as input from './core/input.js';
 import { say, choose, notice, caption } from './scenes/ui.js';
 import { FieldScene } from './scenes/field.js';
-import { ITEMS, CHARS } from './data/party.js';
+import { ITEMS, CHARS, GEAR, makeChar } from './data/party.js';
 
 export { say, choose, notice, caption, wait, fadeOut, fadeIn, flash, shake, setFade, letterbox };
 
@@ -91,7 +91,26 @@ export async function giveParts(n, quiet = false) {
 }
 export function setParty(ids) {
   game.state.party = ids;
-  for (const id of ids) if (!game.state.chars[id]) game.state.chars[id] = structuredClone(CHARS[id]);
+  game.state.roster ||= [];
+  for (const id of ids) {
+    if (!game.state.chars[id]) game.state.chars[id] = makeChar(id);
+    if (!game.state.roster.includes(id)) game.state.roster.push(id);
+  }
+}
+// Recruit a character (at a level that keeps up with the party).
+export function recruit(id, lv) {
+  const st = game.state;
+  if (!st.chars[id]) {
+    const avg = Math.round(Object.values(st.chars).reduce((s, c) => s + c.lv, 0) / Math.max(1, Object.keys(st.chars).length));
+    st.chars[id] = makeChar(id, Math.max(lv || 0, avg, CHARS[id].lv));
+  }
+  st.roster ||= [];
+  if (!st.roster.includes(id)) st.roster.push(id);
+}
+export function dropFromRoster(id) {
+  const st = game.state;
+  st.roster = (st.roster || []).filter((r) => r !== id);
+  st.party = st.party.filter((r) => r !== id);
 }
 export function healAll() {
   for (const id of game.state.party) { const c = game.state.chars[id]; c.hp = c.maxhp; c.ko = false; }

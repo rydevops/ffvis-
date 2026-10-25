@@ -9,7 +9,7 @@ import { game, setScene, pushOverlay, removeOverlay } from '../game.js';
 import { W, H, ditherRect } from '../core/gfx.js';
 import { drawTextCentered } from '../core/font.js';
 import { R, OUTLINE, UI } from './palette.js';
-import { CHARS, ITEMS } from './party.js';
+import { CHARS, ITEMS, makeChar } from './party.js';
 import { saveGame } from '../core/save.js';
 import * as input from '../core/input.js';
 
@@ -353,7 +353,9 @@ export const STORY = {
   async m1Begin() {
     stopMusic(1);
     setParty(['terra', 'duane']);
-    game.state.chars = { terra: structuredClone(CHARS.terra), duane: structuredClone(CHARS.duane) };
+    game.state.chars.terra = makeChar('terra');
+    game.state.chars.duane = makeChar('duane');
+    game.state.roster = ['terra', 'duane'];
     game.state.items = { tonic: 5, salts: 2, smoke: 1 };
     game.state.chapterName = 'Mission 1';
     setLeader('terra');
@@ -623,7 +625,7 @@ export const STORY = {
           await say('Terra', 'No. NO. I won\'t let you!');
           sfx('spirit');
           flash(R.spirit[0]);
-          terra.sprite = 'terraGlow';
+          terra.base = 'terraGlow';
           terra.c.spriteOverride = 'terraGlow';
           terra.c.fieldOverride = 'terraGlow';
           terra.c.maxsp = 24; terra.c.sp = 24;
