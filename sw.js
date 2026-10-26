@@ -35,6 +35,7 @@ const ASSETS = /*ASSETS*/[
   "./js/data/story_act3.js",
   "./js/data/story_common.js",
   "./js/data/story_side.js",
+  "./js/data/terra_art.js",
   "./js/data/tiles.js",
   "./js/data/world.js",
   "./js/game.js",
