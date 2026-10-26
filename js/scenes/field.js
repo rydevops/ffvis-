@@ -41,6 +41,29 @@ export class FieldScene {
     audio.setAmbience(m.ambience || 'none');
     game.state.map = this.mapId;
     game.state.mapName = m.name;
+    this.recordPosition();
+  }
+
+  // Saves restore the player from state.map/x/y/dir, so keep them current as the player moves.
+  recordPosition() {
+    const st = game.state, p = this.player;
+    if (!st || !p) return;
+    st.map = this.mapId;
+    st.x = p.x; st.y = p.y; st.dir = p.dir;
+  }
+
+  // A saved position can be stale or invalid (older saves never stored one; a map may have
+  // changed). Return the nearest open tile to (x, y) that is not an exit/step trigger.
+  nearestOpenTile(x, y) {
+    const cx = Math.max(0, Math.min(this.w - 1, x | 0)), cy = Math.max(0, Math.min(this.h - 1, y | 0));
+    const trigger = (tx, ty) => this.events.some((e) => e.on === 'step' && ty >= e.y && ty < e.y + (e.h || 1) && tx >= e.x && tx < e.x + (e.w || 1));
+    let best = null, bd = Infinity;
+    for (let ty = 0; ty < this.h; ty++) for (let tx = 0; tx < this.w; tx++) {
+      const d = (tx - cx) ** 2 + (ty - cy) ** 2;
+      if (d >= bd || this.blocked(tx, ty, this.player) || trigger(tx, ty)) continue;
+      best = [tx, ty]; bd = d;
+    }
+    return best;
   }
 
   load() {
@@ -67,6 +90,13 @@ export class FieldScene {
       if (n.flag && !game.state.flags[n.flag]) continue;
       if (n.unless && game.state.flags[n.unless]) continue;
       this.actors.push(new Actor({ ...n }));
+    }
+    const sp = this.player;
+    const inside = sp.x >= 0 && sp.y >= 0 && sp.x < this.w && sp.y < this.h;
+    const afloat = this.map.world && game.state.boarded; // flying or sailing: over water is fine
+    if (!inside || (!afloat && this.blocked(sp.x, sp.y, sp))) {
+      const to = this.nearestOpenTile(sp.x, sp.y);
+      if (to) { sp.x = to[0]; sp.y = to[1]; sp.px = sp.x * 16; sp.py = sp.y * 16; }
     }
     this.steps = 0;
     this.nextEnc = 14 + Math.floor(Math.random() * 18);
@@ -296,6 +326,7 @@ export class FieldScene {
 
   onPlayerStep() {
     const p = this.player;
+    this.recordPosition();
     if (game.busy) return;
     if (this.map.world && this.vehicle === 'falcon') return;
     if (this.map.world) { // walking onto a parked vehicle boards it
