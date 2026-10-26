@@ -11,7 +11,7 @@ export const ACT3_MAPS = {
     g.top(3).rect(0, 0, 0, 25, '#').rect(29, 0, 29, 25, '#').rect(0, 24, 29, 25, '#').rect(13, 24, 16, 25, ',');
     g.path([[14, 23], [14, 4]], ',', 2).path([[3, 10], [26, 10]], ',');
     return {
-      name: 'Maranda', theme: 'desert', music: (f) => (f.act3 && !f.marandaFreed ? 'tension' : 'town'), region: 'central', weather: 'dust', shadow: '#584428',
+      name: 'Maranda', theme: 'desert', music: (f) => (f.act3 && !f.marandaFreed ? 'tension' : 'town'), region: 'central', weather: (f) => (f.wsWind ? null : 'ash'), shadow: '#584428',
       rows: g.rows(),
       props: [
         { type: 'house', x: 2, y: 8, state: 'brick' }, { type: 'house', x: 8, y: 8, state: 'brick' }, { type: 'house', x: 18, y: 8, state: 'brick' }, { type: 'house', x: 24, y: 8, state: 'brick' },

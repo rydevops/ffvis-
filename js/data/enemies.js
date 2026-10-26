@@ -728,6 +728,8 @@ Object.assign(ENEMIES, {
   mercy: { name: 'SOLACE', paint: 'mercy', family: 'machine', hp: 12000, atk: 40, def: 30, mdf: 34, spd: 22, exp: 0, gp: 0, boss: true, weak: ['spirit'],
     moves: [M('Rest Now', 0, 3, 'rings', { status: 'rest', chance: 0.55 }), M('I Remember You', 0.9, 2, 'heal', { all: true, el: 'void' }), M('Lullaby', 0, 1, 'rings', { all: true, status: 'sleep', chance: 0.3 })] },
 });
+ENEMIES.gogoMirror = { name: 'Mirror Gogo', paint: 'doll:gogo', family: 'human', hp: 11000, atk: 40, def: 26, mdf: 26, spd: 24, exp: 4000, gp: 3000, boss: true,
+  moves: [M('Mirrored Blade', 1.4, 3, 'slash'), M('Mirrored Bolt', 1.2, 2, 'bolt', { all: true, el: 'bolt' }), M('Mirrored Mend', 0, 1, 'heal', { heal: 0.06 })] };
 // the heart laid bare after the last battle (story figure only)
 ENEMIES.finalHeart = { name: 'SOLACE', paint: 'finalCore', family: 'machine', hp: 1, atk: 1, def: 1, spd: 1, exp: 0, gp: 0, moves: [M('...', 0, 1, 'rings')] };
 // Eight Seraphs: unfinished prototypes, optional superbosses

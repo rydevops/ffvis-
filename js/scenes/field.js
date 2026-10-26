@@ -390,7 +390,7 @@ export class FieldScene {
     if (canControl) {
       if (!p.moving && !p.queue.length) {
         const dir = input.isHeld('up') ? 'up' : input.isHeld('down') ? 'down' : input.isHeld('left') ? 'left' : input.isHeld('right') ? 'right' : null;
-        p.speed = this.vehicle === 'falcon' ? 3 : input.isHeld('b') && !this.vehicle ? 2 : 1;
+        p.speed = this.vehicle === 'falcon' ? (game.state.flags.falconFast ? 4 : 3) : input.isHeld('b') && !this.vehicle ? 2 : 1;
         if (dir) {
           if (!this.startMove(p, dir)) {
             p.dir = dir;

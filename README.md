@@ -9,15 +9,30 @@ and code here are original; no assets from the original games are used.
 
 ## What's playable
 
-| Chapter | Content |
-| --- | --- |
-| **Prologue — Breaking Ground** | Ilse's dig crew under Kefka's Tower, the six-glyph door puzzle, the Vault of Unmaking, SOLACE's awakening and the crew's loss, the Halls of Warning (random encounters), the **Warden Construct** boss, collapse in the Ashen Reach, and the title card as SOLACE's eye opens |
-| **Mission 1 — Mobliz Morning** | Wake the children, water the crops, the schoolhouse lesson and the Straw Knight sparring tutorial, nightfall and the silent "stilling wave", the impossible bloom, Pip collapsing, Seed Drones, the **Seedling Swarm** boss, and Terra's first Trance flicker (unlocks *Spirit*) |
+The full story bible, start to finish:
 
-Systems: tile-based exploration with y-sorted props and NPCs, Active Time Battle (Wait/Active
-modes), Ilse's *Salvage* (Shock Trap, Turret, Flash Decoy, Patch Kit, built from machine parts),
-Hale's *Blast*, Duane's *Heave*/*Brace*, Terra's *Spirit*, items, EXP and levels, save/continue,
-and settings (music/SFX volume, text speed, battle mode, reduce flashing, screen-shake level).
+| Part | Content |
+| --- | --- |
+| **Prologue** | Ilse's dig under Kefka's Tower, the Vault of Unmaking, SOLACE wakes, the **Warden Construct** |
+| **Act I — The Rootless Year** | Mobliz Morning and the **Seedling Swarm**; Letters by Falcon (**Skywatcher** on the deck); Council at Figaro; three scenarios in any order — Hollowmere (**Maren**, **Brood Hive**), the Veldt (Seven joins, **Retriever**), the Singing Mine; the three-path Defense of Narshe and **Psalm** |
+| **Act II — The Race for the Wellsprings** | The Falcon and an open world map. Thamasa's Archive of Ash (Relm paints bridges, **Archive Sentinel**); the Esper Ruins (Dalia joins, Echo of **Ifrit & Shiva**); then in any order the Drowned Temple (**Litany**'s memory loops), Doma's crypts (**Dirge**), Vigil's three-deck armada (Maren joins, **Vigil**). The Silent Hour at Albrook, the three-team Sanctum of the Hush (**Ostrander**), and the Circuit Closes |
+| **Act III — Requiem** | Ilse alone and a brass skiff; gather the scattered party in any order (Maranda's siege, Edgar's rescue dive, the Veldt escort, Setzer's card game, Locke in the dust storm, Doma's long night, Relm's pigments, the collapsed mine, Dalia lost in an Echo, Gogo's mirror dance); the Dreaming Esper and **Nightmare Kefka**; Gogo's Gambit; the Cradle's three paths (Mercy, Memory with **Amen**, Rest); **SOLACE** in four forms; the Green Return and an epilogue that changes with your choices |
+
+**World:** every relit Wellspring recolours its region of the world map (snow, sea, forests, sky);
+SOLACE broadcasts after each one; the Bloom spreads silent green across the heartland in Act III,
+and a Stilled counter tracks the sleepers you've helped wake.
+
+**Side content:** a personal quest and ultimate for every character (Morning Star, Second Chance,
+Runic Blade, Royal Tempest, Dawnblade, Jackpot Royale and a faster Falcon, Atonement and Living
+Canvas, Beast King's Roar, Snowfall Dance and Big Hug, Overclock, Unbroken Line, Esper Bloom, Gogo's
+mirror), Seven's *Learning to Dream* (which decides Seven's fate), the Interceptor's Trail to Shadow,
+the Eight Seraphs, 24 Echo points, *The Return of Maria*, Cid's last notes, the Colosseum,
+rebuilding Mobliz, Hollowmere and Albrook, and waking the Stilled early with Relm's paintings.
+
+**Systems:** Active Time Battle with 20 playable characters and their commands (Salvage, Spirit,
+Tools, Blitz, Bushido, Slots, Runic, Steal, Sketch, Lore, Rage, Dance, Learn, Bulwark, Call, Throw,
+Mimic), Echo Shards that grow stronger as the world heals, equipment and shops, inns, party
+switching, save/continue, and settings (volume, text speed, battle mode, reduce flashing, shake).
 
 ## Controls
 
@@ -85,6 +100,11 @@ outlines, light from the upper left). All music is an original score played by a
 python3 -m http.server 8123      # then open http://localhost:8123
 ```
 
-`?debug` exposes `window.__rfr` for testing. Headless play-test scenarios live in
-`tools/scenarios` (`node tools/drive.mjs run` with `SETUP`/`CHOICES` env vars); the sprite
-viewer is `tools/viewer.html?m=field|battle|enemy`.
+`?debug` exposes `window.__rfr` for testing. With the server running:
+
+- `node tools/validate.mjs` checks every map and story script for broken references
+  (row widths, props, sprites, enemies, items, songs, sound effects, story handlers, locations).
+- `STEPS='name|name:{json}|js:code' node tools/drive.mjs flow` plays story handlers in order,
+  answering dialogue and fighting battles (`GOD=1` for speed, `CHOICES=0,1` for menus).
+- `tools/viewer.html?m=field|battle|enemy` shows sprites; `?m=map&map=<id>&flags=a,b&z=1`
+  renders a whole map.

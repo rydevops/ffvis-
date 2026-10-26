@@ -44,6 +44,8 @@ export const THEMES = {
   deck: { floor: R.leather, path: R.iron, face: R.leather, top: '#3A2418', wall: 'rail', floorKind: 'wood', water: R.skyRuin, void: R.skyRuin,
     rest: { water: R.skyRest, void: R.skyRest } },
   garden: { floor: R.stone, path: R.folSilent, face: R.stone, top: '#6E6858', wall: 'stone', floorKind: 'stone', flower: R.folSilent, glyph: 'glass', water: R.glass },
+  beach: { floor: R.sand, path: R.leather, face: R.sand, top: '#584428', wall: 'rock', floorKind: 'sand', water: R.seaRuin,
+    rest: { water: R.seaRest } },
   dream: { floor: R.folRest, path: R.sand, face: R.stone, top: '#3A2418', wall: 'rock', flower: R.folRest, water: R.seaRest },
 };
 
@@ -322,6 +324,7 @@ const FLOOR_FOR = {
   deck: { floor: 'wood', path: 'wood' },
   garden: { floor: 'stone', path: 'flowers', rune: 'rune' },
   dream: { floor: 'grass', path: 'path' },
+  beach: { floor: 'sand', path: 'wood' },
 };
 
 const tileCache = new Map();

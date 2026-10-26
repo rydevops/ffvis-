@@ -698,7 +698,7 @@ export const ACT3 = {
     const hard = F().cradleHard ? 1.2 : 1;
     const hp = (k, n) => ({ kind: k, hp: Math.round(n * hard) });
     // 1. Cathedral: the colossal form with four Wellspring conduits
-    let r = await battle([hp('solaceCore', 18000), ...[0, 1, 2, 3].map((i) => ({ kind: 'conduit', hp: Math.round(3000 * hard), at: [[150, 40], [170, 92], [150, 144], [16, 40]][i] }))], {
+    let r = await battle([{ ...hp('solaceCore', 18000), invuln: true }, ...[0, 1, 2, 3].map((i) => ({ kind: 'conduit', hp: Math.round(3000 * hard), at: [[104, 140], [134, 152], [164, 140], [194, 152]][i] }))], {
       bg: 'cathedral', boss: true, noFlee: true, battleMusic: 'final',
       script: async (b, ev) => { if (ev === 'start') await say('Edgar', 'Four conduits, one for each Wellspring! The core is shielded while they stand!'); },
     });
@@ -849,7 +849,7 @@ export const ACT3 = {
       `Echoes heard: ${F().echoes || 0}   Play time: ${Math.floor(st().playtime / 3600 / 60)}h ${Math.floor(st().playtime / 3600) % 60}m`,
       '',
       'An unofficial fan sequel. Thank you for playing.',
-    ]));
+    ], { restored: true, music: 'ending' }));
   },
 };
 

@@ -144,11 +144,11 @@ export const SIDE = {
     await ultimate('ult_terra', 'Terra learned Morning Star!');
   },
   async costume(e) {
-    if (F()['costume_' + e.item]) { await say('', 'Nothing else here.'); return; }
-    setFlag('costume_' + e.item);
+    if (F()['costume_' + e.costume]) { await say('', 'Nothing else here.'); return; }
+    setFlag('costume_' + e.costume);
     if (e.prop) setProp(e.prop, 'open');
     sfx('item');
-    await notice({ crown: 'Found a tin crown behind the throne.', cape: 'Found a velvet cape, only slightly moth-eaten.', sword: 'Found a wooden sword with ROWAN carved on the hilt.' }[e.item], { frames: 110 });
+    await notice({ crown: 'Found a tin crown behind the throne.', cape: 'Found a velvet cape, only slightly moth-eaten.', sword: 'Found a wooden sword with ROWAN carved on the hilt.' }[e.costume], { frames: 110 });
   },
 
   // ============================== Locke: "The Last Keepsake" ==============================

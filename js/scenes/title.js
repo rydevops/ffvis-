@@ -1,4 +1,5 @@
 // Title screen, game over, and the "to be continued" ending card.
+import { drawBg } from './bgs.js';
 import { game, setScene, pushOverlay, fadeOut, fadeIn, setFade, wait } from '../game.js';
 import * as input from '../core/input.js';
 import * as audio from '../core/audio.js';
@@ -172,16 +173,15 @@ export class GameOverScene {
 
 // End of the demo slice.
 export class EndCardScene {
-  constructor(lines) { this.t = 0; this.lines = lines; }
-  enter() { setFade(4); fadeIn(60); audio.playMusic('title'); }
+  constructor(lines, opts = {}) { this.t = 0; this.lines = lines; this.opts = opts; }
+  enter() { setFade(4); fadeIn(60); audio.playMusic(this.opts.music || 'title'); }
   update(canControl) {
     this.t++;
     if (canControl && this.t > 240 && input.pressed('a')) { this.t = -99999; fadeOut(60).then(() => setScene(new TitleScene())); }
   }
   draw(ctx) {
-    const a = art();
-    ctx.drawImage(a.bg, 0, 0);
-    ditherRect(ctx, 0, 0, W, H, OUTLINE, 2);
+    if (this.opts.restored) { drawBg(ctx, 'plains', this.t, 'rest'); ditherRect(ctx, 24, 50, W - 48, this.lines.length * 14 + 12, OUTLINE, 3); }
+    else { const a = art(); ctx.drawImage(a.bg, 0, 0); ditherRect(ctx, 0, 0, W, H, OUTLINE, 2); }
     this.lines.forEach((l, i) => drawTextCentered(ctx, l, W / 2, 60 + i * 14, i === 0 ? R.spirit[1] : UI.text));
     if (this.t > 240 && Math.floor(this.t / 30) % 2 === 0) drawTextCentered(ctx, 'Press A to return to the title', W / 2, 190, UI.textDim);
   }

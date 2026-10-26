@@ -58,7 +58,7 @@ export const SIDE_MAPS = {
         ...e.events,
         { id: 'grave', on: 'talk', x: 6, y: 17, run: 'rachelGrave' },
         { id: 'letters', on: 'talk', x: 24, y: 6, run: 'rachelLetters', flag: 'act2', prop: 'letters' },
-        { id: 'sword', on: 'talk', x: 2, y: 13, run: 'costume', item: 'sword', prop: 'sword', flag: 'playStarted' },
+        { id: 'sword', on: 'talk', x: 2, y: 13, run: 'costume', costume: 'sword', prop: 'sword', flag: 'playStarted' },
         { id: 'wreck1', on: 'talk', x: 22, y: 8, w: 2, run: 'crashSite', n: 1 },
       ],
     });
@@ -76,7 +76,7 @@ export const SIDE_MAPS = {
         { id: 'jiLetter', name: 'Soldier\'s Mother', sprite: 'womanB', x: 8, y: 18, dir: 'right', talk: 'domaLetter', n: 2 },
         sighting(3, 2, 10),
       ],
-      events: [...e.events, { id: 'cape', on: 'talk', x: 27, y: 4, run: 'costume', item: 'cape', prop: 'cape', flag: 'playStarted' }],
+      events: [...e.events, { id: 'cape', on: 'talk', x: 27, y: 4, run: 'costume', costume: 'cape', prop: 'cape', flag: 'playStarted' }],
     });
   })(),
 
@@ -110,7 +110,7 @@ export const SIDE_MAPS = {
     g.rect(10, 14, 13, 17, 'b');
     const e = split([echo('eSo', 18, 6, 'A whale the size of an island sings to a lonely shore. The waves keep time.', 'bismarck'), page(6, 4, 4)]);
     return {
-      name: 'Solitary Island', theme: 'drowned', music: 'lullaby', region: 'sea', shadow: '#2A2826',
+      name: 'Solitary Island', theme: 'beach', music: 'lullaby', region: 'sea', shadow: '#2A2826',
       rows: g.rows(),
       props: [{ id: 'cidHouse', type: 'cottage', x: 8, y: 7 }, { type: 'palm', x: 4, y: 9 }, { type: 'palm', x: 18, y: 10 }, { type: 'palm', x: 15, y: 4 },
         { type: 'grave', x: 6, y: 12, flag: 'cidLost' }, { type: 'boat', x: 3, y: 15 }, { id: 'wreck2', type: 'rubble', x: 19, y: 13 }, ...e.props],
@@ -129,7 +129,7 @@ export const SIDE_MAPS = {
   tzen: (() => {
     const e = split([echo('eTz', 4, 18, 'A thunder-god in a war mask lowers his spear, refusing to fight for anyone ever again.', null)]);
     return town({
-      name: 'Tzen', theme: 'desert', region: 'central', weather: 'dust', shadow: '#584428',
+      name: 'Tzen', theme: 'desert', region: 'central', weather: (f) => (f.wsWind ? null : 'ash'), shadow: '#584428',
       props: [H(3, 9, 'brick'), H(9, 9, 'brick'), H(19, 9, 'brick'), H(24, 9, 'brick'), { id: 'facility', type: 'engine', x: 20, y: 17, state: (f) => (f.ult_celes ? null : 'on') }, { type: 'crate', x: 18, y: 18 },
         { type: 'well', x: 7, y: 15 }, { id: 'wreck3', type: 'rubble', x: 26, y: 15 }, ...e.props],
       npcs: [
@@ -254,7 +254,7 @@ export function patchSide(MAPS) {
   add('esperRuins', { events: [{ id: 'motherSong', on: 'talk', x: 14, y: 2, w: 2, run: 'mothersSong', flag: 'm7Done', unless: 'ult_dalia' }] });
   add('zoneEater', { events: [{ id: 'mirror', on: 'talk', x: 11, y: 1, run: 'mimicMirror', flag: 'gogoJoined', unless: 'ult_gogo' }] });
   add('domaCrypt', { events: [{ id: 'letters', on: 'talk', x: 13, y: 9, w: 4, run: 'domaLettersFind', flag: 'dirgeDown', unless: 'gotDomaLetters' }] });
-  add('figaro', { events: [{ id: 'crown', on: 'talk', x: 14, y: 4, w: 2, run: 'costume', item: 'crown', flag: 'playStarted' }] });
+  add('figaro', { events: [{ id: 'crown', on: 'talk', x: 14, y: 4, w: 2, run: 'costume', costume: 'crown', flag: 'playStarted' }] });
 
   // Cid's last notes
   for (const [map, n, x, y] of [['narshe', 5, 2, 24], ['thamasa', 7, 2, 21]]) add(map, { props: [{ id: 'cid' + n, type: 'chest', x, y, flag: 'act2' }], events: [{ id: 'cid' + n, on: 'talk', x, y, run: 'cidPage', n, flag: 'act2', unless: 'cid_' + n, prop: 'cid' + n }] });

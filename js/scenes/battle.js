@@ -361,7 +361,7 @@ export class BattleScene {
       if (input.repeat('down') || (input.repeat('right') && m.side === 'party')) { m.ti = (m.ti + 1) % pool.length; audio.sfx('cursor'); }
       if (input.repeat('up') || (input.repeat('left') && m.side === 'party')) { m.ti = (m.ti + pool.length - 1) % pool.length; audio.sfx('cursor'); }
       if (m.side === 'enemy' && input.pressed('right') && !m.lockSide) { m.side = 'party'; m.ti = Math.max(0, this.party.indexOf(p)); audio.sfx('cursor'); }
-      else if (m.side === 'party' && input.pressed('left') && !m.lockSide) { m.side = 'enemy'; m.ti = 0; audio.sfx('cursor'); }
+      else if (m.side === 'party' && input.pressed('left') && !m.lockSide) { m.side = 'enemy'; m.ti = Math.max(0, this.targetPool(m).findIndex((e) => !e.invuln)); audio.sfx('cursor'); }
       if (input.pressed('b')) { m.stage = m.list ? 'list' : 'cmd'; audio.sfx('cancel'); return; }
       if (input.pressed('a')) { audio.sfx('confirm'); this.commit({ ...m.act, actor: p, targets: [this.targetPool(m)[m.ti]] }); }
     }
@@ -446,6 +446,7 @@ export class BattleScene {
     const m = this.menu;
     Object.assign(m, { stage: 'target', act, side, multi: o.multi || null, allowKO: !!o.allowKO, koOnly: !!o.koOnly, lockSide: !!o.lockSide });
     m.ti = side === 'party' ? Math.max(0, this.party.indexOf(m.actor)) : 0;
+    if (side === 'enemy') { const pool = this.targetPool(m); const k = pool.findIndex((e) => !e.invuln); if (k > 0) m.ti = k; } // skip shielded foes
     if (side === 'party' && o.koOnly) m.ti = 0;
   }
   commit(act) {

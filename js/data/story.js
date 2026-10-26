@@ -16,6 +16,7 @@ import { COMMON } from './story_common.js';
 import { ACT1 } from './story_act1.js';
 import { ACT2 } from './story_act2.js';
 import { ACT3 } from './story_act3.js';
+import { SIDE } from './story_side.js';
 
 const SOLACE_NAME = '???';
 const solace = (text, name = SOLACE_NAME) => say(name, text, { style: 'solace' });
@@ -670,4 +671,4 @@ export const STORY = {
     await say('Terra', 'The east field. Nothing has grown here since the world fell. Not even weeds.');
   },
 };
-Object.assign(STORY, COMMON, ACT1, ACT2, ACT3);
+Object.assign(STORY, COMMON, ACT1, ACT2, ACT3, SIDE);

@@ -1,7 +1,7 @@
 // Story-flow driver: runs story handlers in order (STEPS env, '|'-separated list of name or name:json-ctx),
 // auto-answering dialogue, choices (CHOICES env) and party pickers, and fighting battles.
 // GOD=1 makes the party overwhelming so long flows finish quickly. Shots on each step and on errors.
-export async function drive(t, done, { choices = [], maxMs = 120000, tag = '' } = {}) {
+export async function drive(t, done, { choices = [], maxMs = +(process.env.STEPMS || 120000), tag = '' } = {}) {
   const t0 = Date.now();
   while (Date.now() - t0 < maxMs) {
     const st = await t.ev(() => {
