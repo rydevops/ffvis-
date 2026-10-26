@@ -1,9 +1,9 @@
 :root {
   --bg: #140C14;
-  --pad-ink: rgba(232, 226, 208, 0.82);
-  --pad-face: rgba(76, 80, 88, 0.55);
-  --pad-face-dark: rgba(30, 32, 36, 0.7);
-  --pad-press: rgba(108, 216, 200, 0.55);
+  --pad-ink: rgba(232, 226, 208, 0.5);
+  --pad-face: rgba(76, 80, 88, 0.1);
+  --pad-face-dark: rgba(30, 32, 36, 0.14);
+  --pad-press: rgba(108, 216, 200, 0.3);
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-l: env(safe-area-inset-left, 0px);
@@ -30,11 +30,22 @@ html, body {
 #app {
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 30%, #2a1a2a 0%, var(--bg) 70%);
+  background: var(--bg);
+}
+
+/* the game's own colours, blurred, behind the picture */
+#ambient {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  image-rendering: auto;
 }
 
 #screen-wrap {
   position: absolute;
+  z-index: 1;
   left: 0;
   right: 0;
   display: flex;
@@ -47,25 +58,26 @@ html, body {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   background: #000;
-  box-shadow: 0 0 0 1px #2e1424, 0 6px 24px rgba(0, 0, 0, 0.6);
 }
 
 /* ---------- virtual pad ---------- */
-#pad { position: absolute; left: 0; right: 0; pointer-events: none; }
+/* faint fills; a hairline dark edge keeps the outlines findable over bright ground */
+#pad { position: absolute; left: 0; right: 0; pointer-events: none; z-index: 2; }
 #pad > * { pointer-events: auto; position: absolute; }
 
 #dpad { width: 150px; height: 150px; touch-action: none; }
 .dpad-x, .dpad-y {
   position: absolute;
   background: var(--pad-face);
-  border: 2px solid var(--pad-ink);
+  border: 1.5px solid var(--pad-ink);
   border-radius: 10px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 .dpad-x { left: 0; right: 0; top: 50px; height: 50px; }
 .dpad-y { top: 0; bottom: 0; left: 50px; width: 50px; }
 .dpad-dot {
   position: absolute; left: 62px; top: 62px; width: 26px; height: 26px; border-radius: 50%;
-  background: var(--pad-face-dark);
+  background: rgba(232, 226, 208, 0.18);
 }
 #dpad.up .dpad-y { background: linear-gradient(var(--pad-press) 0 35%, var(--pad-face) 35%); }
 #dpad.down .dpad-y { background: linear-gradient(var(--pad-face) 65%, var(--pad-press) 65%); }
@@ -77,10 +89,12 @@ html, body {
   position: absolute;
   width: 72px; height: 72px;
   border-radius: 50%;
-  border: 2px solid var(--pad-ink);
+  border: 1.5px solid var(--pad-ink);
   background: var(--pad-face);
   color: var(--pad-ink);
   font: bold 22px ui-monospace, Menlo, monospace;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(0, 0, 0, 0.2);
   touch-action: none;
 }
 #btn-a { right: 0; top: 10px; }
@@ -91,13 +105,17 @@ html, body {
 .pill {
   width: 96px; height: 34px;
   border-radius: 17px;
-  border: 2px solid var(--pad-ink);
+  border: 1.5px solid var(--pad-ink);
   background: var(--pad-face-dark);
   color: var(--pad-ink);
   font: bold 13px ui-monospace, Menlo, monospace;
   letter-spacing: 2px;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(0, 0, 0, 0.2);
   touch-action: none;
 }
+
+body.portrait #ambient { opacity: 0.3; }
 
 /* portrait: controls live in the space under the screen */
 body.portrait #pad { top: 0; bottom: 0; }
@@ -107,9 +125,9 @@ body.portrait #menu-btns { left: 50%; transform: translateX(-50%); bottom: calc(
 
 /* landscape: controls overlay the gutters beside the screen */
 body.landscape #pad { top: 0; bottom: 0; }
-body.landscape #dpad { left: calc(10px + var(--safe-l)); bottom: calc(14px + var(--safe-b)); opacity: 0.8; }
-body.landscape #ab { right: calc(6px + var(--safe-r)); bottom: calc(14px + var(--safe-b)); opacity: 0.8; }
-body.landscape #menu-btns { right: calc(40px + var(--safe-r)); top: calc(10px + var(--safe-t)); opacity: 0.8; }
+body.landscape #dpad { left: calc(10px + var(--safe-l)); bottom: calc(14px + var(--safe-b)); opacity: 0.85; }
+body.landscape #ab { right: calc(6px + var(--safe-r)); bottom: calc(14px + var(--safe-b)); opacity: 0.85; }
+body.landscape #menu-btns { right: calc(40px + var(--safe-r)); top: calc(10px + var(--safe-t)); opacity: 0.85; }
 body.landscape .pill { width: 80px; height: 30px; font-size: 11px; }
 
 /* hide on devices with a real keyboard + mouse only */
