@@ -3,6 +3,8 @@ import { hash } from './tiles.js';
 import { buildWorld } from './world.js';
 import { ACT1_MAPS } from './maps_act1.js';
 import { ACT2_MAPS } from './maps_act2.js';
+import { ACT3_MAPS, patchAct3 } from './maps_act3.js';
+import { SIDE_MAPS, patchSide } from './maps_side.js';
 
 // Carve floor rectangles out of a solid block; walls on the lower/upper face rows get
 // occasional glyph bands (vault).
@@ -298,4 +300,6 @@ export const MAPS = {
       weather: (f) => (f.wsWind ? null : 'ash'), props: [], npcs: [], events: [] };
   })(),
 };
-Object.assign(MAPS, ACT1_MAPS, ACT2_MAPS);
+Object.assign(MAPS, ACT1_MAPS, ACT2_MAPS, ACT3_MAPS, SIDE_MAPS);
+patchAct3(MAPS);
+patchSide(MAPS);

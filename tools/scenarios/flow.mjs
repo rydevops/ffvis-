@@ -13,6 +13,7 @@ export async function drive(t, done, { choices = [], maxMs = 120000, tag = '' } 
       await t.ev(() => { const g = window.__rfr.game; const o = g.overlays.at(-1); const pool = o.pool || []; const ch = [...o.chosen]; for (const id of pool) if (ch.length < (o.max || 4) && !ch.includes(id)) ch.push(id); g.overlays.splice(g.overlays.indexOf(o), 1); o.resolve(ch); });
       continue;
     }
+    if (await t.ev(() => { const o = window.__rfr.game.overlays.at(-1); if (o && o.seq && o.stage === 'input') { o.got = [...o.seq]; o.ok = true; o.stage = 'done'; o.t = 0; return true; } return false; })) continue;
     if (st.choice) {
       const c = choices.length ? choices.shift() : 0;
       console.error(tag, 'choice ->', c);

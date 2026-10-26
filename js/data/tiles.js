@@ -858,6 +858,7 @@ Object.assign(PROPS, {
 // Large story figures drawn from their battle paintings (Psalm in the mine, SOLACE asleep, etc.)
 for (const [k, fig, w, h, foot] of [['psalmFig', 'psalm', 112, 98, [2, 0, 3, 1]], ['litanyFig', 'litany', 112, 96, [2, 0, 3, 1]], ['dirgeFig', 'dirge', 84, 100, [2, 0, 2, 1]],
   ['vigilFig', 'vigil', 128, 84, [2, 0, 4, 1]], ['wardenFig', 'warden', 88, 92, [2, 0, 2, 1]], ['mercyFig', 'mercy', 32, 50, [0, 0, 2, 1]], ['kefkaFig', 'kefka', 72, 96, [1, 0, 2, 1]],
-  ['amenFig', 'amen', 128, 100, [2, 0, 4, 1]], ['retrieverFig', 'retriever', 72, 54, [1, 0, 2, 1]], ['hiveFig', 'broodHive', 60, 62, [1, 0, 2, 1]], ['ifritFig', 'echoIfrit', 80, 92, [1, 0, 3, 1]], ['shivaFig', 'echoShiva', 64, 92, [1, 0, 2, 1]]]) {
+  ['amenFig', 'amen', 128, 100, [2, 0, 4, 1]], ['retrieverFig', 'retriever', 72, 54, [1, 0, 2, 1]], ['hiveFig', 'broodHive', 60, 62, [1, 0, 2, 1]], ['ifritFig', 'echoIfrit', 80, 92, [1, 0, 3, 1]], ['shivaFig', 'echoShiva', 64, 92, [1, 0, 2, 1]],
+  ['solaceFig', 'solaceCore', 72, 72, [1, 0, 3, 1]], ['heartFig', 'finalHeart', 96, 96, [2, 0, 2, 1]]]) {
   PROPS[k] = { w, h, foot, figure: fig, anim: true, paint() {} };
 }

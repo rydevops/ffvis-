@@ -7,7 +7,7 @@ import {
 import { game, setScene, pushOverlay, removeOverlay } from '../game.js';
 import { W, H } from '../core/gfx.js';
 import { R } from './palette.js';
-import { COMMON, st, autosave, relight, joins, pickTeam, chapterCard, solace, team, requireTeam, wsCount } from './story_common.js';
+import { COMMON, st, autosave, relight, joins, getShard, pickTeam, chapterCard, solace, team, requireTeam, wsCount } from './story_common.js';
 
 const F = () => game.state.flags;
 const has = (id) => st().party.includes(id);
@@ -246,6 +246,7 @@ export const ACT2 = {
     if (r !== 'win') return;
     music('espers');
     await say('', 'The fire and the ice dim into rising petals, and the shrine is quiet.');
+    await getShard('ifrit');
     await say('Terra', 'I saw him. My father. He wanted to meet me. Before I was even born.');
     await say('Dalia', 'Then he loved you. Before you were born. That\'s... that\'s a good thing to know.');
     await say('Terra', 'Valtheia is inside SOLACE. She\'s been reaching out to me through the Wellsprings, that\'s the warmth I keep feeling. I\'m not becoming a weapon. I\'m being called.');

@@ -152,6 +152,7 @@ export class FieldScene {
     if (st.vehicles.falcon) this.props.push({ id: 'veh_falcon', type: 'airship', x: st.vehicles.falcon[0], y: st.vehicles.falcon[1], ox: -12, oy: 4, z: 8 });
     if (st.vehicles.skiff) this.props.push({ id: 'veh_skiff', type: 'skiffProp', x: st.vehicles.skiff[0], y: st.vehicles.skiff[1], ox: -4, oy: 0, flat: true });
     if (st.boarded === 'falcon') this.board('falcon', true);
+    else if (st.boarded === 'skiff') this.board('skiff', true);
   }
 
   board(kind, silent = false) {
