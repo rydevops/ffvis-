@@ -12,7 +12,7 @@ export default async function (t) {
       g.state.chars = Object.fromEntries(ids.map((id) => [id, R.party.makeChar(id, 22)]));
       const shards = Object.keys(R.party.ECHOES);
       ids.forEach((id, k) => { g.state.chars[id].echo = shards[k % shards.length]; });
-      Object.assign(g.state.flags, { wsStone: true, wsTides: true, wsHeart: true, wsWind: true, trance: true, act2: true, ult_cyan: true, ult_figaro: true });
+      Object.assign(g.state.flags, { wsStone: true, wsTides: true, wsHeart: true, wsWind: true, trance: true, tranceFull: true, act2: true, ...Object.fromEntries(['terra', 'locke', 'celes', 'figaro', 'cyan', 'setzer', 'strago', 'relm', 'gau', 'mog', 'umaro', 'gogo', 'ilse', 'maren', 'dalia'].map((k) => ['ult_' + k, true])) });
       g.state.lores = { tideBreath: true, ribChord: true };
       g.state.rages = { frostFang: true, digRush: true };
       g.state.items = { tonic: 9, hiTonic: 5, ether: 5, salts: 3, remedy: 3, shuriken: 5 };
