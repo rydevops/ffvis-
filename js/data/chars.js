@@ -410,3 +410,149 @@ const KH = { // kid heads occupy rows 5-14
 };
 for (const k of Object.keys(KH)) for (const d of Object.keys(KH[k])) KH[k][d] = pad(KH[k][d], 0);
 export const KID_HEADS = KH;
+
+// ---------------------------------------------------------------- robes (hem to the floor)
+const LEGS_ROBE = {
+  down: [
+    ['....tTTttTTu....', '....tTTttTTu....', '...tTTttttTTu...', '...tTttttttuu...', '....kff..ffk....'],
+    ['....tTTttTTu....', '....tTTttTTu....', '...tTTttttTTu...', '...tTtttttttu...', '....kff.........'],
+    ['....tTTttTTu....', '....tTTttTTu....', '...tTTttttTTu...', '...uTttttttTu...', '.........ffk....'],
+  ],
+  up: [
+    ['....ttttttu.....', '....tttttttu....', '...ttttttttuu...', '...tttttttttu...', '....kff..ffk....'],
+    ['....ttttttu.....', '....tttttttu....', '...ttttttttuu...', '...tttttttttu...', '....kff.........'],
+    ['....ttttttu.....', '....tttttttu....', '...ttttttttuu...', '...tttttttttu...', '.........ffk....'],
+  ],
+  left: [
+    ['.....tTttu......', '.....tTtttu.....', '....tTttttu.....', '....tTtttuu.....', '....kfff........'],
+    ['.....tTttu......', '.....tTtttu.....', '....tTttttu.....', '....tTttttu.....', '...kfff..f......'],
+    ['.....tTttu......', '.....tTtttu.....', '....tTttttu.....', '....tTtttuu.....', '.....kff........'],
+  ],
+};
+BODY.robe = bodyFrames({ down: TORSO_DOWN, up: TORSO_UP, left: TORSO_LEFT }, LEGS_ROBE);
+
+// ---------------------------------------------------------------- more heads ('up' is derived when absent)
+Object.assign(HEADS, {
+  locke: {
+    down: ['................', '................', '.....xXXXXx.....', '....xXXXXXXx....', '...xXXXXXXXXy...', '...yxxxxxxxxy...',
+      '...jhSSSSSShj...', '...jSSSSSSSSj...', '...jSkSSSkSSj...', '...jSkSSSkSSj...', '....zSSmSSSz....', '.....zzzzzz.....'],
+    left: ['................', '................', '.....xXXXXx.....', '....xXXXXXXxy...', '...xXXXXXXXXxyy.', '...yxxxxxxxxy.y.',
+      '..jSSShhhhhjj...', '..SSSSShhhhj....', '..SkSSSShhj.....', '..SkSSSzhjj.....', '...SmSzzjj......', '....zzzz........'],
+  },
+  longhair: {
+    down: ['................', '................', '.....jhhhhj.....', '....jhHHhhhj....', '...jhHhhhhhhj...', '...jhhSSSShhj...',
+      '..jhhSSSSSShhj..', '..jhSkSSSSkShj..', '..jhSkSSSSkShj..', '..jhzSSmmSSzhj..', '..jhjzzzzzzjhj..', '..jh........hj..'],
+    left: ['................', '................', '.....jhhhhj.....', '....hHHHhhhj....', '...hHhhhhhhhj...', '...hhhhhhhhhhj..',
+      '..jSSShhhhhhhj..', '..SSSSShhhhhhj..', '..SkSSShhhhhjj..', '..SSSSzhhhhhj...', '...Smzzjhhhjj...', '....zz..jjjj....'],
+  },
+  edgar: {
+    down: ['................', '................', '.....jhhhhj.....', '....jhHHHhhj....', '...jhHHhhhhhj...', '...jAAAAAAAAj...',
+      '...jhSSSSSShj...', '...jSSSSSSSSj...', '...jSkSSSkSSj...', '...jSkSSSkSSj...', '....zSSmSSSz....', '.....zzzzzz.....'],
+    left: ['................', '................', '.....jhhhhj.....', '....hHHHhhhj....', '...hHhhhhhhhj...', '..AAAAAAhhhhjj..',
+      '..jSSShhhhhjhj..', '..SSSSShhhhjhj..', '..SkSSSShhj.jh..', '..SkSSSzhjj..j..', '...SmSzzjj......', '....zzzz........'],
+  },
+  sabin: {
+    down: ['................', '.....h..h.......', '....hHhhHh.h....', '...hHHhhHHhh....', '...jhHHhhhhhj...', '...jhhhhhhhhj...',
+      '...jSSSSSSSSj...', '...SSSSSSSSSS...', '...SSkSSSSkSS...', '...zSSSSSSSSz...', '....zSSmmSSz....', '.....zzzzzz.....'],
+    left: ['................', '.....h..h.......', '....hHhhHhh.....', '...hHHhhHHhhj...', '...hhhhhhhhhj...', '..SSSShhhhhj....',
+      '..SSSSSShhhjj...', '..SkSSSShhj.jj..', '..SSSSSSzz...j..', '...SSSSzz....j..', '...SmmSz........', '....zzzz........'],
+  },
+  cyan: {
+    down: ['.......jh.......', '.......hj.......', '......jhhj......', '.....jhHHhj.....', '....jhHhhhhj....', '...jhhhhhhhhj...',
+      '...jSSSSSSSSj...', '...SSSSSSSSSS...', '...SSkSSSSkSS...', '...zSSSSSSSSz...', '....zjjjjjjz....', '.....zzzzzz.....'],
+    left: ['........jh......', '........hj......', '.......jhhj.....', '.....jhHHhhj....', '....hHhhhhhhj...', '...hhhhhhhhhj...',
+      '..SSSShhhhhj....', '..SSSSSShhhj....', '..SkSSSSzhj.....', '..SSSSSSzz......', '..jjjSSzz.......', '....zzzz........'],
+  },
+  hood: { // hood + mouth cloth (Shadow, Hush acolytes)
+    down: ['................', '.....xxxxxx.....', '....xXXXXXXx....', '...xXXXXXXXXx...', '...xXxxxxxxXx...', '...xXSSSSSSXx...',
+      '...xXkSSSkSXx...', '...xXaaaaaaXx...', '...xXaaaaaaXx...', '...xxaaaaaaxx...', '....xxxxxxxx....', '.....aaaaaa.....'],
+    up: ['................', '.....xxxxxx.....', '....xXXXXXXx....', '...xXXXXXXXXx...', '...xXXXXXXXXx...', '...xXXXXXXXXx...',
+      '...xXXXXXXXXx...', '...xxXXXXXXxx...', '...xxxxxxxxxx...', '...xxxxxxxxxx...', '....xxxxxxxx....', '.....aaaaaa.....'],
+    left: ['................', '.....xxxxxx.....', '....xXXXXXXx....', '...xXXXXXXXXx...', '..xXxxxxxxxXx...', '..xSSSSxxxXXx...',
+      '..xkSSSxxXXxx...', '..aaaaaaxXXx....', '..aaaaaaxXx.....', '...aaaaxxx......', '....xxxx.aa.....', '.........aaa....'],
+  },
+  cowl: { // hood with the face showing (Ostrander, cultists)
+    down: ['................', '.....xxxxxx.....', '....xXXXXXXx....', '...xXXXXXXXXx...', '...xXxxxxxxXx...', '...xXSSSSSSXx...',
+      '...xXSSSSSSXx...', '...xSkSSSSkSx...', '...xSkSSSSkSx...', '...xzSSmmSSzx...', '....xzzzzzzx....', '.....xxxxxx.....'],
+    up: ['................', '.....xxxxxx.....', '....xXXXXXXx....', '...xXXXXXXXXx...', '...xXXXXXXXXx...', '...xXXXXXXXXx...',
+      '...xXXXXXXXXx...', '...xxXXXXXXxx...', '...xxxxxxxxxx...', '...xxxxxxxxxx...', '....xxxxxxxx....', '.....xxxxxx.....'],
+    left: ['................', '.....xxxxxx.....', '....xXXXXXXx....', '...xXXXXXXXXx...', '..xXxxxxxxxXx...', '..xSSSxxxxXXx...',
+      '..SSSSSxxXXxx...', '..SkSSSxXXx.....', '..SkSSzxXx......', '..SmSzzxx.......', '...zzzxx........', '....xxx.........'],
+  },
+  strago: {
+    down: ['.......xy.......', '......xXxy......', '.....xXXxxy.....', '....xXXXxxxy....', '...yyyyyyyyyy...', '...jhSSSSSShj...',
+      '...jSkSSSSkSj...', '...hhSSSSSShh...', '...hhhhhhhhhh...', '....hhhhhhhh....', '.....hhhhhh.....', '.......hh.......'],
+    up: ['.......xy.......', '......xXxy......', '.....xXXxxy.....', '....xXXXxxxy....', '...yyyyyyyyyy...', '...jhhhhhhhhj...',
+      '...jhhhhhhhhj...', '...jjhhhhhhjj...', '....jjhhhhjj....', '.....zzzzzz.....', '................', '................'],
+    left: ['........xy......', '.......xXxy.....', '......xXXxxy....', '.....xXXXxxxy...', '..yyyyyyyyyyyy..', '..SSSShhhhhj....',
+      '..SkSSShhhj.....', '..hhhSShhj......', '..hhhhhhj.......', '...hhhhj........', '...hhhh.........', '....hh..........'],
+  },
+  gau: {
+    down: ['................', '...h.h..h..h....', '..hHhhHhhHhhh...', '..hHHhhHHhhhhh..', '.hhHhhhhhhhhhh..', '..hhhhhhhhhhh...',
+      '..hhSSSSSShhh...', '...hSkSSSkShh...', '...jSkwSSkwSj...', '...jzSSmSSzj....', '....zzzzzzz.....', '................'],
+    left: ['................', '....h..h..h.....', '...hHhhHhhHhh...', '..hHHhhHHhhhhh..', '..hhhhhhhhhhhhh.', '..SSShhhhhhhhh..',
+      '..SSSShhhhhhh...', '..SkSSShhhjh....', '..SkwSzhhjj.....', '...SmSzzj.......', '....zzzz........', '................'],
+  },
+  dalia: {
+    down: ['................', '................', '.....jhhhhj.....', '....jhHHhhhj....', '...jhHhhhhhhj...', '..jhhhSSSShhhj..',
+      '..jhSSSSSSSShj..', '..jhSkSSSSkShj..', '..jhSkwSSkwShj..', '..jhAzSmSSzAhj..', '..jhjzzzzzzjhj..', '...h........h...'],
+    left: ['................', '................', '.....jhhhhj.....', '....hHHHhhhj.h..', '...hHhhhhhhhjh..', '...hhhhhhhhhhj..',
+      '..jSSShhhhhhhj..', '..SSSSShhhhhhj..', '..SkSSShhhhhjj..', '..SkwAzhhhhhj...', '...Smzzjhhhjj...', '....zz..jjjj.h..'],
+  },
+  maren: {
+    down: ['.......AA.......', '......AAA.......', '.....xXXXXx.....', '....xXXXXXXx....', '...xXXXXXXXXy...', '...yxxxxxxxxy...',
+      '...jSSSSSSSSj...', '...SSkSSSSkSS...', '...SSkSSSSkSS...', '...zSSSSSSSSz...', '....zSSmSSSz....', '.....zzzzzz.....'],
+    left: ['........AAA.....', '.......AAAAA....', '.....xXXXXx.AA..', '....xXXXXXXx....', '...xXXXXXXXXy...', '...yxxxxxxxxy...',
+      '..SSSShhhhhj....', '..SkSSSSzhj.....', '..SkSSSSzzj.....', '..SSSSSzzz......', '...SmSzzz.......', '....zzzz........'],
+  },
+  gogo: {
+    down: ['................', '.....xXXXXx.....', '....xXXAXXXx....', '...xXXXXXaXXy...', '...xXAXXXXXXy...', '...yXXXXXXXXy...',
+      '...ykkkkkkkky...', '...yXXXXXXAXy...', '...yxXaXXXXxy...', '...yxxxxXxxxy...', '....yxxxxxxy....', '.....yyyyyy.....'],
+    up: ['................', '.....xXXXXx.....', '....xXXAXXXx....', '...xXXXXXaXXy...', '...xXAXXXXXXy...', '...yXXXXXXXXy...',
+      '...yXXaXXXXXy...', '...yXXXXXXAXy...', '...yxXaXXXXxy...', '...yxxxxXxxxy...', '....yxxxxxxy....', '.....yyyyyy.....'],
+    left: ['................', '.....xXXXXx.....', '....xXXAXXXx....', '...xXXXXXaXXy...', '..xXAXXXXXXXy...', '..yXXXXXXXXXy...',
+      '..kkkkkXXXXy....', '..XXXXXXAXy.....', '..xXaXXXXxy.....', '..yxxxxXxxy.....', '...yxxxxxy......', '....yyyyy.......'],
+  },
+  oldman: {
+    down: ['................', '................', '.....SSSSSS.....', '....hSSSSSSh....', '...hhSSSSSShh...', '...hhSSSSSShh...',
+      '...hSSSSSSSSh...', '...SSkSSSSkSS...', '...SSkSSSSkSS...', '...zShhhhhhSz...', '....hhhhhhhh....', '.....zzzzzz.....'],
+    up: ['................', '................', '.....SSSSSS.....', '....hSSSSSSh....', '...hhSSSSSShh...', '...hhhSSSShhh...',
+      '...hhhhhhhhhh...', '...hhhhhhhhhh...', '...jhhhhhhhhj...', '....jjhhhhjj....', '.....zzzzzz.....', '.....zzzzzz.....'],
+    left: ['................', '................', '.....SSSSS......', '....SSSSSShh....', '...SSSSSSSShh...', '...SSSSSSShhh...',
+      '..SSSSSSShhh....', '..SkSSSSSzh.....', '..SkSSSSzz......', '..hhhhSzz.......', '...hhhzz........', '....zzzz........'],
+  },
+  bun: {
+    down: ['.......hh.......', '......hHhj......', '.....jhhhhj.....', '....jhHHHhhj....', '...jhHHhhhhhj...', '...jhhHhhhhhj...',
+      '...jhSSSSShhj...', '...jSSSSSSSSj...', '...jSkSSSkSSj...', '...jSkSSSkSSj...', '....zSSmSSSz....', '.....zzzzzz.....'],
+    left: ['........hh......', '.......hHhj.....', '.....jhhhhj.....', '....hHHHhhhj....', '...hHhhhhhhhj...', '...hhhhhhhhhj...',
+      '..jSSShhhhhjj...', '..SSSSShhhhj....', '..SkSSSShhj.....', '..SkSSSzhjj.....', '...SmSzzjj......', '....zzzz........'],
+  },
+  soldier: { // Imperial veteran helmet
+    down: ['................', '................', '.....xXXXXx.....', '....xXXXXXXx....', '...xXXXXXXXXy...', '...xxxxxxxxxx...',
+      '...xSSSSSSSSx...', '...xSkSSSSkSx...', '...xSkSSSSkSx...', '...xzSSSSSSzx...', '....zSSmmSSz....', '.....zzzzzz.....'],
+    left: ['................', '................', '.....xXXXXx.....', '....xXXXXXXx....', '...xXXXXXXXXy...', '..xxxxxxxxxxx...',
+      '..SSSSSxxxxx....', '..SkSSSSzxx.....', '..SkSSSSzx......', '..SSSSSzzx......', '...SmSzzz.......', '....zzzz........'],
+  },
+});
+HEADS.ilse.up = HEADS.ilse.up; // keep authored backs
+// Kefka's face from Terra's nightmare: white paint, red smile, feathered plume
+HEADS.jester = {
+  down: ['.....A..A.A.....', '....AxAAxAx.....', '.....xXXXXx.....', '....hXXXXXXh....', '...hhSSSSSShh...', '...hSSSSSSSSh...',
+    '...SSkSSSSkSS...', '...SSkSSSSkSS...', '...SSAAAAAASS...', '...zSSAAAASSz...', '....zSSSSSSz....', '.....zzzzzz.....'],
+  left: ['......A..A.A....', '.....AxAAxAx....', '.....xXXXXx.....', '....XXXXXXhh....', '...SSSSSSShhh...', '..SSSSSSSShhh...',
+    '..SkSSSSShhh....', '..SkSSSSzhh.....', '..AAAASSzh......', '..SAASSzz.......', '...SSSzz........', '....zzzz........'],
+};
+
+Object.assign(KID_HEADS, {
+  beret: {
+    down: ['................', '................', '................', '................', '.....xXXXXXx....',
+      '...xXXXXXXXXx...', '...yxxxxxxxxyy..', '...jhhSSSShhj...', '...jSkSSSkSSj...', '...jSkwSSkwSj...',
+      '....zSSmSSSz....', '.....zzzzzz.....', '................', '................', '................'],
+    up: ['................', '................', '................', '................', '.....xXXXXXx....',
+      '...xXXXXXXXXx...', '...yxxxxxxxxyy..', '...jhhhhhhhhj...', '...jhhhhhhhhj...', '...jjhhhhhhjj...',
+      '....jjhhhhjj....', '.....zzzzzz.....', '................', '................', '................'],
+    left: ['................', '................', '................', '................', '....xXXXXXx.....',
+      '..xXXXXXXXXXx...', '.yyxxxxxxxxy....', '..jSSShhhhhj....', '..SkSSShhhj.....', '..SkwSzhhjj.....',
+      '...SmSzzjj......', '....zzzz........', '................', '................', '................'],
+  },
+});

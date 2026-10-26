@@ -9,9 +9,14 @@ import { game, setScene, pushOverlay, removeOverlay } from '../game.js';
 import { W, H, ditherRect } from '../core/gfx.js';
 import { drawTextCentered } from '../core/font.js';
 import { R, OUTLINE, UI } from './palette.js';
-import { CHARS, ITEMS } from './party.js';
+import { CHARS, ITEMS, makeChar } from './party.js';
 import { saveGame } from '../core/save.js';
 import * as input from '../core/input.js';
+import { COMMON } from './story_common.js';
+import { ACT1 } from './story_act1.js';
+import { ACT2 } from './story_act2.js';
+import { ACT3 } from './story_act3.js';
+import { SIDE } from './story_side.js';
 
 const SOLACE_NAME = '???';
 const solace = (text, name = SOLACE_NAME) => say(name, text, { style: 'solace' });
@@ -353,7 +358,9 @@ export const STORY = {
   async m1Begin() {
     stopMusic(1);
     setParty(['terra', 'duane']);
-    game.state.chars = { terra: structuredClone(CHARS.terra), duane: structuredClone(CHARS.duane) };
+    game.state.chars.terra = makeChar('terra');
+    game.state.chars.duane = makeChar('duane');
+    game.state.roster = ['terra', 'duane'];
     game.state.items = { tonic: 5, salts: 2, smoke: 1 };
     game.state.chapterName = 'Mission 1';
     setLeader('terra');
@@ -623,7 +630,7 @@ export const STORY = {
           await say('Terra', 'No. NO. I won\'t let you!');
           sfx('spirit');
           flash(R.spirit[0]);
-          terra.sprite = 'terraGlow';
+          terra.base = 'terraGlow';
           terra.c.spriteOverride = 'terraGlow';
           terra.c.fieldOverride = 'terraGlow';
           terra.c.maxsp = 24; terra.c.sp = 24;
@@ -656,20 +663,12 @@ export const STORY = {
     sfx('chime');
     await say('', 'Far to the north, an engine roars across the red sky. An airship, bearing the crest of Figaro.');
     void f;
-    await fadeOut(90);
-    const { EndCardScene } = await import('../scenes/title.js');
-    game.state.chapterName = 'Mission 2';
-    setScene(new EndCardScene([
-      'To be continued',
-      '',
-      'Mission 2 — Letters by Falcon',
-      '',
-      'Thank you for playing this first chapter of',
-      'Requiem for Ruin, an unofficial fan sequel.',
-    ]));
+    removeActor('katarin2');
+    await STORY.m2Begin();
   },
 
   async fieldEdge() {
     await say('Terra', 'The east field. Nothing has grown here since the world fell. Not even weeds.');
   },
 };
+Object.assign(STORY, COMMON, ACT1, ACT2, ACT3, SIDE);
