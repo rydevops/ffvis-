@@ -78,50 +78,6 @@ export const BODY = {
 // ---------------------------------------------------------------- heads
 // Each head is 12 rows (0-11) in a 16-wide frame. Row 11 overlaps the collar.
 export const HEADS = {
-  terra: {
-    down: [
-      '........jh......',
-      '.......hHhj.....',
-      '.....jhHHhhj....',
-      '....jhHHhhhhj...',
-      '...jhHhhhhhhhj..',
-      '...jhhhhhSShhj..',
-      '...jhSSSSSSShj..',
-      '...jhSkSSSkShj..',
-      '...jjSkwSSkwjj..',
-      '...jjzSSmSSzjj..',
-      '...jj.zzzzz.jj..',
-      '....j.......j...',
-    ],
-    up: [
-      '.......jh.......',
-      '......hHHj......',
-      '.....jhHHhj.....',
-      '....jhHhhhhj....',
-      '...jhHhhhhhhj...',
-      '...jhhhhhhhhj...',
-      '...jhhhjhhhhj...',
-      '...jhhhhjhhhj...',
-      '...jjhhhhhhjj...',
-      '...jjjhhhhjjj...',
-      '....jjjjjjjj....',
-      '.....j....j.....',
-    ],
-    left: [
-      '..........hhj...',
-      '.........hHhhj..',
-      '.....jhhhHhhhj..',
-      '....jhHHhhhhhhj.',
-      '...jhHhhhhhhhjj.',
-      '...hhhhhhhhhjj..',
-      '..jSSShhhhhjj...',
-      '..SSSSShhhhj....',
-      '..SkSSShhhj.....',
-      '..SkwSzhhjj.....',
-      '...zSzzjjj......',
-      '....zz..........',
-    ],
-  },
   ilse: {
     down: [
       '................',

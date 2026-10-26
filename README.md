@@ -102,6 +102,14 @@ guide's master ramps (384×216 internal resolution, 16 px tiles, 2×2 Bayer dith
 outlines, light from the upper left). All music is an original score played by a WebAudio synth
 (main theme, SOLACE's lullaby and its variants, vault, battle, boss, Mobliz, victory).
 
+## Art
+
+Characters are being redrawn by hand in the 16-bit style, one at a time. **Terra** is first:
+`js/data/terra_art.js` holds her 16x24 field frames (down/up/left, with walking poses derived
+from the standing art) and the body parts her battle poses are composed from, with the outline
+drawn as part of the art. Her Trance forms are palette swaps of the same drawing. The rest of
+the cast still uses the layered/procedural builders in `js/data/chars.js` and `sprites.js`.
+
 ## Local development
 
 ```sh
@@ -114,5 +122,5 @@ python3 -m http.server 8123      # then open http://localhost:8123
   (row widths, props, sprites, enemies, items, songs, sound effects, story handlers, locations).
 - `STEPS='name|name:{json}|js:code' node tools/drive.mjs flow` plays story handlers in order,
   answering dialogue and fighting battles (`GOD=1` for speed, `CHOICES=0,1` for menus).
-- `tools/viewer.html?m=field|battle|enemy` shows sprites; `?m=map&map=<id>&flags=a,b&z=1`
+- `tools/viewer.html?m=field|battle|enemy|terra` shows sprites (`terra` lays out every field frame and battle pose of her forms); `?m=map&map=<id>&flags=a,b&z=1`
   renders a whole map.

@@ -1,7 +1,7 @@
 import { fieldSheet, CHAR_DEFS } from '../js/data/sprites.js';
 import { makeCanvas } from '../js/core/gfx.js';
 export async function render() {
-  const ids = [...Object.keys(CHAR_DEFS), 'mog', 'moogle', 'seven', 'sevenBlue', 'umaro', 'interceptor', 'falcon', 'skiff'];
+  const ids = ['terra', 'terraGlow', 'terraEsper', ...Object.keys(CHAR_DEFS), 'mog', 'moogle', 'seven', 'sevenBlue', 'umaro', 'interceptor', 'falcon', 'skiff'];
   const cols = 4;
   const cw = 12 * 26 + 8;
   const rows = Math.ceil(ids.length / cols);

@@ -3,16 +3,12 @@
 import { BODY, HEADS, EXTRAS, KID_HEADS } from './chars.js';
 import { R, OUTLINE } from './palette.js';
 import { Painter, flipH } from '../core/gfx.js';
+import { FIELD as HAND_FIELD, FORMS as HAND_FORMS, BATTLE_PARTS as HAND_PARTS } from './terra_art.js';
 
 const P_ = (o) => o;
 // Each character: body build, head, extras, and ramps for each layer key group.
 export const CHAR_DEFS = {
-  terra: { body: 'adult', head: 'terra', extras: ['terraCape'], warm: true,
-    pal: { hair: R.hairGreen, skin: R.skinLight, top: R.tunicRed, bottom: R.tunicRed, trim: R.brass, cape: R.plum, boots: R.leather } },
-  terraGlow: { body: 'adult', head: 'terra', extras: ['terraCape'], warm: true,
-    pal: { hair: R.hairGreen, skin: R.spirit, top: R.tunicRed, bottom: R.tunicRed, trim: R.brass, cape: R.plum, boots: R.leather } },
-  terraEsper: { body: 'adult', head: 'longhair', warm: true,
-    pal: { hair: R.spirit, skin: R.palePink, top: R.spirit, bottom: R.plum, trim: R.stone, boots: R.plum } },
+  // Terra (and her Trance forms) is hand-drawn: see terra_art.js
   ilse: { body: 'coat', head: 'ilse', extras: ['ilseBag', 'ilsePatch'],
     pal: { hair: R.ashBlonde, skin: R.skinLight, top: R.coatDrab, bottom: R.iron, trim: R.imperial, boots: R.leather, extra: R.leather } },
   duane: { body: 'adult', head: 'duane',
@@ -301,7 +297,9 @@ const sheetCache = new Map();
 export function fieldSheet(id) {
   if (sheetCache.has(id)) return sheetCache.get(id);
   const sheet = {};
-  if (SPECIAL[id]) {
+  if (HAND_FORMS[id]) { // hand-drawn characters (outline is part of the art)
+    for (const dir of DIRS) sheet[dir] = HAND_FIELD[dir].map((rows) => { const p = new Painter(16, 24); p.art(rows, 0, 0, HAND_FORMS[id]); return p.toCanvas(); });
+  } else if (SPECIAL[id]) {
     for (const dir of DIRS) sheet[dir] = [0, 1, 2].map((fr) => SPECIAL[id](dir, fr));
   } else {
     const def = CHAR_DEFS[id];
@@ -312,7 +310,7 @@ export function fieldSheet(id) {
   sheetCache.set(id, sheet);
   return sheet;
 }
-export function hasSprite(id) { return !!(SPECIAL[id] || CHAR_DEFS[id]); }
+export function hasSprite(id) { return !!(SPECIAL[id] || CHAR_DEFS[id] || HAND_FORMS[id]); }
 
 // Walk cycle: stand, step A, stand, step B (8 frames each).
 export function walkFrame(sheet, dir, t, moving) {
@@ -513,6 +511,69 @@ function buildBattle(id, poseName) {
   return p.toCanvas();
 }
 
+// Hand-drawn characters: body parts from the art module, arms and weapon posed on top.
+function buildHandBattle(id, poseName) {
+  const pal = HAND_FORMS[id];
+  const pose = POSES[poseName] || POSES.idle0;
+  const bd = BATTLE[id] || {};
+  const p = new Painter(32, 40);
+  const ox = 10, base = 38; // body centre ~x17, like the procedural dolls, leaving room for the sword on the left
+  const kneel = pose.legs === 'kneel';
+  const lean = Math.round(pose.lean * 0.7);
+  const crouch = Math.min(pose.crouch, 2);
+  const oy = base - 23 + (kneel ? 4 : crouch);
+  const dx = ox + lean;
+  const OUT = pal.O;
+  const draw = (rows, x, y) => p.art(rows, x, y, pal);
+
+  const arm = (ang, sx, sy, shade, len = 7) => {
+    const a = rad(ang);
+    const ex = sx + Math.cos(a) * len, ey = sy + Math.sin(a) * len;
+    p.thickLine(sx, sy, ex, ey, OUT, 4);
+    p.thickLine(sx, sy, ex, ey, shade ? pal.u : pal.t, 2);
+    p.set(Math.round(sx + Math.cos(a) * 2), Math.round(sy + Math.sin(a) * 2), shade ? pal.v : pal.s);
+    p.rect(Math.round(ex) - 1, Math.round(ey) - 1, 2, 2, pal.t);
+    p.set(Math.round(ex) - 1, Math.round(ey) - 1, pal.s);
+    return [Math.round(ex), Math.round(ey)];
+  };
+  const puff = (sx, sy) => { // a small violet guard where the near arm joins the body
+    p.rect(sx - 1, sy - 1, 3, 2, pal.q); p.rect(sx - 1, sy - 1, 3, 1, pal.p); p.set(sx + 1, sy, pal.r);
+    p.set(sx - 2, sy - 1, pal.O);
+  };
+  const blade = (hx, hy, ang, len = 11) => { // outlined two-pixel blade, gold guard, steel highlight
+    const a = rad(ang), dxs = Math.cos(a), dys = Math.sin(a);
+    const tipX = hx + dxs * len, tipY = hy + dys * len;
+    p.thickLine(hx + dxs * 2, hy + dys * 2, tipX, tipY, pal.O, 4);
+    p.thickLine(hx + dxs * 2, hy + dys * 2, tipX, tipY, '#C9CED6', 2);
+    p.line(hx + dxs * 2, hy + dys * 2 - 1, tipX, tipY - 1, '#F4F7FA');
+    p.line(hx + dxs * 2, hy + dys * 2 + 1, tipX, tipY + 1, '#7A828F');
+    const gx = hx + dxs * 2, gy = hy + dys * 2;
+    p.thickLine(gx - dys * 2, gy + dxs * 2, gx + dys * 2, gy - dxs * 2, pal.O, 3);
+    p.thickLine(gx - dys * 1, gy + dxs * 1, gx + dys * 1, gy - dxs * 1, pal.F, 1);
+    p.set(Math.round(gx), Math.round(gy), pal.G);
+  };
+
+  // far arm behind the body, then the body, then the near arm and the weapon
+  const farSx = dx + 9, farSy = oy + 15, nearSx = dx + 4, nearSy = oy + 15;
+  const backHand = arm(pose.ba, farSx, farSy, true);
+  if (kneel) {
+    draw(HAND_PARTS.body.slice(0, 16), dx, oy);
+    draw(HAND_PARTS.kneel, dx, base - 3);
+  } else {
+    draw(pose.legs === 'lunge' ? HAND_PARTS.legs.lunge : HAND_PARTS.legs.stand, ox + (pose.legs === 'lunge' ? 0 : 0), base - 3);
+    draw(HAND_PARTS.body, dx, oy);
+  }
+  const fh = arm(pose.fa, nearSx, nearSy, false);
+  puff(nearSx + 1, nearSy - 1);
+  const sheathed = poseName === 'cast' || poseName === 'item' || poseName === 'defend';
+  if (sheathed) { /* hands are free */ }
+  else if (bd.weapon === 'sword') blade(fh[0], fh[1], pose.wa);
+  else if (bd.weapon && bd.weapon !== 'none') drawWeapon(p, bd.weapon, fh[0], fh[1], pose.wa);
+  if (pose.holdUp) p.rect(backHand[0] - 2, backHand[1] - 4, 4, 4, '#F0FFFC');
+  if (bd.glow) { p.set(fh[0] - 1, fh[1] - 2, R.spirit[1]); p.set(fh[0] + 1, fh[1] + 1, R.spirit[0]); }
+  return p.toCanvas();
+}
+
 // Non-human battle sprites: poses are small variations of one painting.
 function creatureBattle(id, pose) {
   const P = new Painter(40, 44);
@@ -543,8 +604,8 @@ const CREATURES = new Set(['mog', 'seven', 'sevenBlue', 'umaro', 'interceptor'])
 const battleCache = new Map();
 export function battleSprite(id, pose) {
   const key = id + ':' + pose;
-  if (!battleCache.has(key)) battleCache.set(key, CREATURES.has(id) ? creatureBattle(id, pose) : buildBattle(id, pose));
+  if (!battleCache.has(key)) battleCache.set(key, HAND_FORMS[id] ? buildHandBattle(id, pose) : CREATURES.has(id) ? creatureBattle(id, pose) : buildBattle(id, pose));
   return battleCache.get(key);
 }
 export const BATTLE_POSES = Object.keys(POSES);
-export function hasBattleSprite(id) { return !!BATTLE[id] || CREATURES.has(id); }
+export function hasBattleSprite(id) { return !!BATTLE[id] || CREATURES.has(id) || !!HAND_FORMS[id]; }
