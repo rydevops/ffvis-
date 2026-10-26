@@ -59,6 +59,14 @@ Sound plays even with the ringer switch off (iOS 17+). The first tap wakes the a
 1. In the repo, go to **Settings → Pages** and set **Source** to **GitHub Actions** (one-time).
 2. Push to `main`. The workflow in `.github/workflows/pages.yml` stamps a build id and deploys.
 
+## Telling which version you're running
+
+The title screen shows the running build at the top-left, e.g. `Build 26 Oct 03:12 UTC - f4bc254`
+(deploy time and commit), with the window size, device pixel ratio, scale and whether it runs
+as an installed app or in the browser beneath it. If the commit there isn't the latest one on
+`main`, you're on an older copy: close the app fully and reopen it while online. `dev build`
+means an unstamped local copy.
+
 ## How auto-update works
 
 Every deploy runs `tools/stamp.mjs`, which writes a unique build id (UTC time + commit) into

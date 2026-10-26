@@ -38,6 +38,7 @@ function layout() {
   const availH = vh - ins.t - ins.b;
   const f = Math.min(availW / 384, availH / 216);
   const cssW = Math.round(384 * f * dpr) / dpr, cssH = Math.round(216 * f * dpr) / dpr;
+  window.__layout = { vw, vh, dpr, scale: Math.round(f * dpr * 100) / 100, standalone: !!(window.navigator.standalone || matchMedia('(display-mode: standalone)').matches) };
   canvas.style.width = cssW + 'px';
   canvas.style.height = cssH + 'px';
   if (portrait && isTouch) { // centre the picture in the space above the controls

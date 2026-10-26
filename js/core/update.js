@@ -118,4 +118,13 @@ document.addEventListener('visibilitychange', async () => {
   }
 });
 
+// "26 Oct 03:12 · f4bc254" from a deploy stamp (YYYYMMDDHHMM-sha); "dev" when running unstamped.
+export function buildLabel() {
+  if (DEV) return 'dev build';
+  const m = /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})-?(\w*)$/.exec(BUILD);
+  if (!m) return BUILD;
+  const mon = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+m[2] - 1];
+  return `${+m[3]} ${mon} ${m[4]}:${m[5]} UTC${m[6] ? ' - ' + m[6] : ''}`;
+}
+
 export { BUILD };
