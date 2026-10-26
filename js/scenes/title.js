@@ -8,7 +8,7 @@ import { drawText, drawTextCentered, glyphRows } from '../core/font.js';
 import { UI, R, OUTLINE } from '../data/palette.js';
 import { hasSave, loadGame, saveSummary } from '../core/save.js';
 import { newState } from '../data/party.js';
-import { setReloadAllowed, BUILD } from '../core/update.js';
+import { setReloadAllowed, buildLabel } from '../core/update.js';
 import { FieldScene } from './field.js';
 import { SettingsMenu } from './menu.js';
 
@@ -149,7 +149,10 @@ export class TitleScene {
       }
     }
     drawText(ctx, 'Fan project. Not affiliated with Square Enix.', 4, 205, '#5A2434', null);
-    drawText(ctx, 'b' + (BUILD.startsWith('__') ? 'dev' : BUILD.slice(-7)), W - 44, 205, '#5A2434', null);
+    // build stamp, readable on purpose: this is how you tell whether an update landed
+    drawText(ctx, 'Build ' + buildLabel(), 4, 4, UI.text);
+    const L = window.__layout;
+    if (L) drawText(ctx, `${L.vw}x${L.vh}  dpr ${L.dpr}  scale ${L.scale}  ${L.standalone ? 'app' : 'browser'}`, 4, 14, UI.textDim);
   }
 }
 
